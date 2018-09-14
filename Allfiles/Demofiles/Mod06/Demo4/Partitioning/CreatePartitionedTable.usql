@@ -1,0 +1,38 @@
+﻿// Read the data from a CSV file
+@salesData = EXTRACT
+  State string,
+  ProductID int,
+  NumSold int,
+  PricePerItem int
+FROM "/Sales.csv"
+USING Extractors.Csv(skipFirstNRows: 1);
+
+// Create a SQL Database to hold the data for processing
+CREATE DATABASE IF NOT EXISTS SalesData;
+
+// Create a table to hold the data. Distribute the data by state
+DROP TABLE IF EXISTS SalesData.dbo.Sales;
+CREATE TABLE IF NOT EXISTS SalesData.dbo.Sales
+(
+    State string,
+    ProductID int,
+    NumSold int,
+    PricePerItem int,
+    INDEX SalesIdx
+    CLUSTERED(ProductID ASC)
+    PARTITIONED BY (State)
+    DISTRIBUTED BY HASH(ProductID)
+);
+
+ALTER TABLE SalesData.dbo.Sales
+ADD PARTITION("NY"),
+    PARTITION("CA"),
+    PARTITION("TX"),
+    PARTITION("FL"),
+    PARTITION("OTHER");
+
+// Copy the data into the Sales table
+INSERT INTO SalesData.dbo.Sales(State, ProductID, NumSold, PricePerItem)
+ON INTEGRITY VIOLATION MOVE TO PARTITION("OTHER")
+SELECT State, ProductID, NumSold, PricePerItem
+FROM @salesData;

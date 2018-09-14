@@ -1,0 +1,33 @@
+﻿REFERENCE ASSEMBLY CustomExtractors;
+REFERENCE ASSEMBLY [Newtonsoft.Json];
+
+// Retrieve the data from the offenderdata.json file in Data Lake Storage
+@offenderData =
+    EXTRACT ForeName string,
+            LastName string,
+            Alias string,
+            Offence string
+    FROM "/offenderdata.json"
+    USING new CustomExtractors.JsonExtractor("offences[*]");
+
+@data =
+    SELECT ForeName,
+           LastName,
+           Alias,
+           Offence
+    FROM @offenderData;
+
+@analysisByOffence =
+    SELECT Offence,
+           COUNT( * ) AS Frequency
+    FROM @offenderData
+    GROUP BY Offence;
+
+OUTPUT @data
+TO "/Offenders.csv"
+USING Outputters.Csv(quoting: false, outputHeader: true);
+
+OUTPUT @analysisByOffence
+TO "/OffenceFrequencies.csv"
+ORDER BY Frequency DESC
+USING Outputters.Csv(quoting: false, outputHeader: true);

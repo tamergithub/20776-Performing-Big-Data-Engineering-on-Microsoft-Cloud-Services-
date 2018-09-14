@@ -1,0 +1,30 @@
+﻿REFERENCE ASSEMBLY CustomOperators;
+
+// Retrieve the input data from the TSV file
+@employeeWorkHistoryData = 
+    EXTRACT
+        EmployeeID int, 
+        EmployeeName string, 
+        DepartmentID int,
+        Roles string
+    FROM "/EmployeeWorkHistory.tsv"
+    USING Extractors.Tsv(skipFirstNRows: 1, silent:true);
+
+// Use the custom reducer to find the number of records for each role in each department 
+@rolesByDepartment =
+    REDUCE @employeeWorkHistoryData
+    PRESORT DepartmentID
+    ON DepartmentID
+    PRODUCE DepartmentID int,
+            NumberOfAssociates int,
+            NumberOfEmployees int,
+            NumberOfTeamLeaders int,
+            NumberOfManagers int,
+            NumberOfVicePresidents int,
+            NumberOfPresidents int
+    USING new CustomOperators.ReduceByRole();
+    
+// Save the results
+OUTPUT @rolesByDepartment
+TO "/DepartmentRoleSummary.csv"
+USING Outputters.Csv(quoting: false, outputHeader: true);

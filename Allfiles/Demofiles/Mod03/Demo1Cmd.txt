@@ -1,0 +1,14 @@
+WITH
+     MarketData AS
+          (SELECT UDF.MostVolatile(Collect())
+               FROM
+                    StockMarket
+               GROUP BY
+                    TumblingWindow(Minute, 2))
+
+SELECT
+     System.Timestamp AS Time, GetRecordPropertyValue(MostVolatile, 'Ticker') AS Ticker, GetRecordPropertyValue(MostVolatile, 'NumChanges') AS NumChanges, GetRecordPropertyValue(MostVolatile, 'MaxPrice') AS MaxPrice, GetRecordPropertyValue(MostVolatile, 'MinPrice') AS MinPrice
+INTO
+     VolatileStocks
+FROM
+     MarketData

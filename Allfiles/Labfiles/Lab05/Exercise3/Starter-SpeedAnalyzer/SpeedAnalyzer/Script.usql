@@ -1,0 +1,111 @@
+﻿// Create table for holding recorded vehicle speeds
+CREATE TABLE IF NOT EXISTS VehicleData.dbo.Speeds
+(
+        CameraID string,
+        VehicleRegistration string,
+        Speed int,
+        SpeedLimit int,
+        LocationLatitude double,
+        LocationLongitude double,
+        Time DateTime,
+    INDEX speedidx
+    CLUSTERED (CameraID ASC)
+    DISTRIBUTED BY HASH (CameraID)                   
+);
+
+// Remove any existing data from the table
+TRUNCATE TABLE VehicleData.dbo.Speeds;
+
+// Reference the CSV file containing speed camera data
+// Note that the path specifies date and time information. The Date, Hour, and Filename variables reference the virtual columns in the EXTRACT statement below
+DECLARE @speedCameraData string = @"/speeds/{Date:yyyy}/{Date:MM}/{Date:dd}/{Hour}/{Filename}";
+
+// Retrieve the data from the CSV file
+@speedData =
+    EXTRACT CameraID string,
+            VehicleRegistration string,
+            Speed int,
+            SpeedLimit int,
+            LocationLatitude double,
+            LocationLongitude double,
+            Time DateTime,
+            Date DateTime,
+            Hour int,
+            Filename string
+    FROM @speedCameraData
+    USING Extractors.Csv(skipFirstNRows: 1);
+
+// Fetch the data for a specific date and hour
+DECLARE @selectedDate DateTime = new DateTime(2017, 8, 30);
+DECLARE @hour int = 16; // Could also be 17 or 18
+
+@speedRecords =
+SELECT CameraID, VehicleRegistration, Speed, SpeedLimit, LocationLatitude, LocationLongitude, Time
+FROM @speedData
+WHERE Date == @selectedDate AND Hour == @hour AND Filename LIKE "%.csv"; 
+
+// Save the raw speed data to the database for further analysis later
+INSERT INTO VehicleData.dbo.Speeds (CameraID, VehicleRegistration, Speed, SpeedLimit, LocationLatitude, LocationLongitude, Time)
+SELECT CameraID, VehicleRegistration, Speed, SpeedLimit, LocationLatitude, LocationLongitude, Time
+FROM @speedRecords;
+
+// Create a table for recording fines and summonses if it doesn't already exist
+CREATE TABLE IF NOT EXISTS VehicleData.dbo.Fines
+(
+        CameraID string,
+        VehicleRegistration string,
+        Speed int,
+        SpeedLimit int,
+        TimeCaught DateTime,
+        PenaltyType string, // "P" for a Fixed Penalty (£100), "S" for a Summons (for excessive speeds, fine amount to be determined by a magistrate)
+        PenaltyIssuedWhen DateTime,
+        PenaltyIssuedTo string, // Full name of owner, including title
+        OffenderAddress string, // Full address of the owner
+    INDEX finesidx
+    CLUSTERED (CameraID ASC)
+    DISTRIBUTED BY HASH (CameraID)                   
+);
+
+// TODO: Switch the context to the VehicleData database in the catalog
+
+// TODO: Drop the VehicleOwner Data Source if it already exists
+
+// TODO: Create the VehicleOwner data source
+
+// TODO: Fetch the vehicle owner data from the SQL database
+
+// Join the speed data with the vehicle owner data so we know where to send fines/summonses
+@speedsAndOwners =
+    SELECT S.CameraID AS CameraID, S.VehicleRegistration AS VehicleRegistration, S.Speed AS Speed, S.SpeedLimit AS SpeedLimit,
+           S.Time AS TimeCaught, O.Title + " " + O.Forename + " " + O.Surname AS PenaltyIssuedTo, 
+           O.AddressLine1 + "; " + O.AddressLine2 + "; " + O.AddressLine3 + "; " + O.AddressLine4 AS OffenderAddress
+    FROM @speedRecords AS S
+    JOIN @vehicleOwnerData AS O
+    ON S.VehicleRegistration == O.VehicleRegistration;
+
+// Process each row of data from the speed camera as follows:
+// - If the speed shown is less than the speed limit + 5%, do not raise a fixed penalty or summons
+// - If the speed shown is between the speed limit + 5% and the speed limit + 30 mph, generate a fixed penalty fine
+// - If the speed is greater than the speed limit + 30 mph then issue a summons to appear in court
+@fines =
+    SELECT *, DateTime.UtcNow AS PenaltyIssuedWhen,
+           Speed >= SpeedLimit * 1.05 && Speed <= SpeedLimit + 30 ? "P" :
+           Speed >= SpeedLimit + 30 ? "S" : "" AS PenaltyType
+    FROM @speedsAndOwners;
+
+// Save the details for fines and summonses. Do not record data for legal traffic speeds
+INSERT INTO VehicleData.dbo.Fines (CameraID, VehicleRegistration, Speed, SpeedLimit, TimeCaught, PenaltyType, PenaltyIssuedWhen, PenaltyIssuedTo, OffenderAddress)
+SELECT CameraID, VehicleRegistration, Speed, SpeedLimit, TimeCaught, PenaltyType, PenaltyIssuedWhen, PenaltyIssuedTo, OffenderAddress
+FROM @fines
+WHERE !String.IsNullOrEmpty(PenaltyType);
+
+// Copy the data to an output file as well
+// NOTE: You cannot read data from the VehicleData.dbo.Fines table as it could be mutating
+@results =
+  SELECT CameraID, VehicleRegistration, Speed, SpeedLimit, TimeCaught, PenaltyType, PenaltyIssuedWhen, PenaltyIssuedTo, OffenderAddress
+  FROM @fines
+  WHERE !String.IsNullOrEmpty(PenaltyType);
+
+OUTPUT @results
+TO "/FinesAndSummonses.csv"
+USING Outputters.Csv(outputHeader: true);

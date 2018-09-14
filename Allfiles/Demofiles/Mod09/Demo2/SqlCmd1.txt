@@ -1,0 +1,14 @@
+USE StockPriceDB
+GO
+
+CREATE TABLE StockData
+(
+  Ticker VARCHAR(4) NOT NULL,
+  ClosingPrice VARCHAR(4) NOT NULL,
+  OpeningPrice VARCHAR(4) NOT NULL,
+  PriceChange VARCHAR(4) NOT NULL,  
+  PercentChange VARCHAR(30) NOT NULL,
+  HourOfLastTrade VARCHAR(2) NOT NULL,
+  Suspicious VARCHAR(3) NOT NULL
+)
+GO

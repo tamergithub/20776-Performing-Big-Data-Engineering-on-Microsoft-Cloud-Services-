@@ -1,0 +1,3 @@
+CREATE TABLE StockNames(
+     Ticker CHAR(4) NOT NULL PRIMARY KEY,
+     Name VARCHAR(200) NOT NULL)

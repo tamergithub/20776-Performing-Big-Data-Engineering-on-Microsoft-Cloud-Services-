@@ -1,0 +1,6 @@
+SELECT
+     Ticker, Price, DATEPART(hour, QuoteTime) AS HourOfDay
+INTO
+     StockMarketData
+FROM
+     StockMarket

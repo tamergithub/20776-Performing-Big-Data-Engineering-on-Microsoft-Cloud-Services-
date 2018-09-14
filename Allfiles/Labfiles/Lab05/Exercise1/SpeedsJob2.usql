@@ -1,0 +1,7 @@
+@rollingAvgSpeeds =
+    SELECT CameraID, Time, Speed, AVG(Speed) OVER (PARTITION BY CameraID ORDER BY Time ROWS 25 PRECEDING) AS RollingAverage
+    FROM @cameraData; 
+
+OUTPUT @rollingAvgSpeeds
+TO "/RollingAverageSpeeds.csv"
+USING Outputters.Csv(outputHeader: true);

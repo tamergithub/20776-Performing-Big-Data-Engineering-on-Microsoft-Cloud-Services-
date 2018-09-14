@@ -1,0 +1,1 @@
+bcp StockPrices.dbo.StockPriceData in StockPriceData.csv /T /SLON-SQL /c /t,

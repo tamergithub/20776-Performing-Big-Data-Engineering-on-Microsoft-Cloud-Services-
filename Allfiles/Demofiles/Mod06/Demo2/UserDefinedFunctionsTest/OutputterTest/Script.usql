@@ -1,0 +1,19 @@
+﻿REFERENCE ASSEMBLY CustomOutputters;
+
+@testData = 
+    SELECT * FROM 
+        ( VALUES
+        (99, "jhgjhgjh", "iuoioui", 100000, 1),
+        (100, "oiuoiu", "poipoi", 115000, 2),
+        (101, "slkjlkjlkj", "nbmnbmn", 250000, 3),
+        (102, "xzcvxvn", "bemnyu", 33800, 1),
+        (103, "qutii", "uyfiu", 0, 2),
+        (104, "sakak", "lkpoi", 190000, 3),
+        (105, "kjsakjk", "cvnbmnx", -500, 1),
+        (106, "wqytyr", "psagdj", 101000, 2)
+        ) AS Employees(EmployeeID, ForeName, LastName, Salary, Dept);
+
+// Write the data to an XML file
+OUTPUT @testData
+TO "/EmployeeData.xml"
+USING new CustomOutputters.SimpleXMLOutputter(xmlDocType: "Employee");

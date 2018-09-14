@@ -1,0 +1,31 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LocationAlerts"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
+    x:Class="LocationAlerts.MainPage"
+    mc:Ignorable="d" Loading="Page_Loading" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Maps:MapControl 
+            x:Name="MapControl"
+            Grid.Row="0"
+            ZoomInteractionMode="GestureAndControl"
+            TiltInteractionMode="GestureAndControl" Height="860" VerticalAlignment="Top"
+            >
+        </Maps:MapControl>
+        <ScrollViewer 
+            x:Name="Viewer"
+            Grid.Row="2"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Visible" Background="Transparent">
+            <RichTextBlock x:Name="AlertMessages" TextWrapping="WrapWholeWords" />
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -1,0 +1,1 @@
+azcopy /Source:"E:\Labfiles\Lab04\Exercise2" /Dest:https://<storage account name>.blob.core.windows.net/vehiclefeed /DestKey:<access key> /S

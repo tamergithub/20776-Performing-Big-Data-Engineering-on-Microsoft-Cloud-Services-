@@ -1,0 +1,78 @@
+﻿// Capture the historical and current data from all available files containig speed data 
+DECLARE @speedCameraData string = @"/speeds/{Date:yyyy}/{Date:MM}/{Date:dd}/{Hour}/{*}.csv";
+
+// Specify the format of the data in the CSV files
+@speedData =
+    EXTRACT CameraID string,
+            VehicleRegistration string,
+            Speed int,
+            SpeedLimit int,
+            LocationLatitude double,
+            LocationLongitude double,
+            Time DateTime,
+            Date DateTime,
+            Hour int
+    FROM @speedCameraData
+    USING Extractors.Csv(skipFirstNRows: 1);
+
+// Generate a rowset that reads the relevant data from the CSV files
+@cameraData =
+    SELECT CameraID, Speed, LocationLatitude, LocationLongitude
+    FROM @speedData;
+
+// Generate rowsets that calculate the number of vehicles in each speed "bucket" for each camera
+@lessThan10 = 
+    SELECT CameraID, LocationLatitude, LocationLongitude, COUNT(*) AS LessThan10
+    FROM @cameraData
+    WHERE Speed < 10
+    GROUP BY CameraID, LocationLatitude, LocationLongitude;
+
+@between10And29 =
+    SELECT CameraID, LocationLatitude, LocationLongitude, COUNT(*) AS Between10And29
+    FROM @cameraData
+    WHERE Speed BETWEEN 10 AND 29
+    GROUP BY CameraID, LocationLatitude, LocationLongitude;
+
+@between30And49 =
+    SELECT CameraID, LocationLatitude, LocationLongitude, COUNT(*) AS Between30And49
+    FROM @cameraData
+    WHERE Speed BETWEEN 30 AND 49
+    GROUP BY CameraID, LocationLatitude, LocationLongitude;
+
+@between50And69 =
+    SELECT CameraID, LocationLatitude, LocationLongitude, COUNT(*) AS Between50And69
+    FROM @cameraData
+    WHERE Speed BETWEEN 50 AND 69
+    GROUP BY CameraID, LocationLatitude, LocationLongitude;
+
+@between70And99 =
+    SELECT CameraID, LocationLatitude, LocationLongitude, COUNT(*) AS Between70And99
+    FROM @cameraData
+    WHERE Speed BETWEEN 70 AND 99
+    GROUP BY CameraID, LocationLatitude, LocationLongitude;
+
+@over99 =
+    SELECT CameraID, LocationLatitude, LocationLongitude, COUNT(*) AS Over99
+    FROM @cameraData
+    WHERE Speed > 99
+    GROUP BY CameraID, LocationLatitude, LocationLongitude;
+
+// Join the speed buckets together. Note that this requires an OUTER join, as one or more buckets for a camera could be null (empty)
+@speedAnalysis =
+    SELECT a.CameraID, a.LocationLatitude, a.LocationLongitude, a.LessThan10, b.Between10And29, c.Between30And49, d.Between50And69, e.Between70And99, f.Over99
+    FROM @lessThan10 AS a
+    LEFT JOIN @between10And29 AS b
+    ON a.CameraID == b.CameraID
+    LEFT JOIN @between30And49 AS c
+    ON a.CameraID == c.CameraID
+    LEFT JOIN @between50And69 AS d
+    ON a.CameraID == d.CameraID
+    LEFT JOIN @between70And99 AS e
+    ON a.CameraID == e.CameraID
+    LEFT JOIN @over99 AS f
+    ON a.CameraID == f.CameraID;
+
+// Save the results
+OUTPUT @speedAnalysis
+TO "/SpeedAnalysis.csv"
+USING Outputters.Csv(outputHeader: true);

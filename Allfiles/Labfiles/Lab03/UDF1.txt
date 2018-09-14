@@ -1,0 +1,7 @@
+// UDF that returns an integer value indicating whether a vehicle is speeding
+
+function main(speedLimit, speed) {
+
+    return (speed > speedLimit) ? 1 : 0;
+
+}

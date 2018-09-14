@@ -1,0 +1,18 @@
+SELECT
+    CameraID,VehicleRegistration,Speed,SpeedLimit,LocationLatitude,LocationLongitude,Time
+INTO
+    StoredData
+FROM
+    CameraDataFeed
+	
+     
+SELECT
+     CameraID, AVG(Speed) AS AvgSpeed
+INTO
+     VisualData
+FROM
+     CameraDataFeed2
+TIMESTAMP BY
+     Time
+GROUP BY
+     CameraID, TumblingWindow(second, 30)

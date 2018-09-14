@@ -1,0 +1,15 @@
+﻿# Login to Azure
+Login-AzureRmAccount
+Select-AzureRmSubscription -SubscriptionName "Azure Pass"
+
+# List databases available on the SQL Data Warehouse server
+$resourceGroup = "StockRG"
+$datawarehouseServer = "<Name of your SQL Data Warehouse server>"
+Get-AzureRmSqlDatabase -ResourceGroupName $resourceGroup -ServerName $datawarehouseServer
+
+# Pause the data warehouse database
+$datawarehouseDatabase = "StockDBW"
+Suspend-AzureRmSqlDatabase -DatabaseName $datawarehouseDatabase -ResourceGroupName $resourceGroup -ServerName $datawarehouseServer
+
+# Resume the database again
+Resume-AzureRmSqlDatabase -DatabaseName $datawarehouseDatabase -ResourceGroupName $resourceGroup -ServerName $datawarehouseServer

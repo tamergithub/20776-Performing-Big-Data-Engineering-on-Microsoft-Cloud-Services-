@@ -1,0 +1,61 @@
+// Create a new database named VehicleData (if it doesn't already exist):
+
+CREATE DATABASE IF NOT EXISTS VehicleData;
+
+// Add a statement to create a table for holding speed camera information. Index and hash the data by the speed camera ID:
+
+CREATE TABLE IF NOT EXISTS VehicleData.dbo.Speeds
+(
+        CameraID string,
+        VehicleRegistration string,
+        Speed int,
+        SpeedLimit int,
+        LocationLatitude double,
+        LocationLongitude double,
+        Time DateTime,
+    INDEX speedidx
+    CLUSTERED (CameraID ASC)
+    DISTRIBUTED BY HASH (CameraID)                   
+);
+
+// Remove any existing data from the table
+
+TRUNCATE TABLE VehicleData.dbo.Speeds;
+
+// The job must only process CSV files for a specific hour on a selected date (this will be a batch job, and it should not process files that might still be being written to by ASA). Declare a variable that uses pattern matching to specify the file name:
+
+DECLARE @speedCameraData string = @"/speeds/{Date:yyyy}/{Date:MM}/{Date:dd}/{Hour}/{Filename}";
+
+// Create an extractor to retrieve speed data from the selected CSV file. This requires defining virtual fields for the date, hour, and filename components of the file as well as the fields within the file (note: the first line contains headers, so skip over it):
+
+@speedData =
+    EXTRACT CameraID string,
+            VehicleRegistration string,
+            Speed int,
+            SpeedLimit int,
+            LocationLatitude double,
+            LocationLongitude double,
+            Time DateTime,
+            Date DateTime,
+            Hour int,
+            Filename string
+    FROM @speedCameraData
+    USING Extractors.Csv(skipFirstNRows: 1);
+
+// Declare variables that specify the date and hour for the data to process (there are 3 hours worth of data - 16-18, for 30th August):
+
+DECLARE @selectedDate DateTime = new DateTime(2017, 8, 30);
+DECLARE @hour int = 16; // Could also be 17 or 18
+
+// Create a rowset that fetches the data for the specified date and time. Ensure that you only read CSV files (this is where the Filename variable comes in)
+
+@speedRecords =
+SELECT CameraID, VehicleRegistration, Speed, SpeedLimit, LocationLatitude, LocationLongitude, Time
+FROM @speedData
+WHERE Date == @selectedDate AND Hour == @hour AND Filename LIKE "%.csv";
+
+// Save this data to the Speeds table in the database for further analysis later:
+
+INSERT INTO VehicleData.dbo.Speeds (CameraID, VehicleRegistration, Speed, SpeedLimit, LocationLatitude, LocationLongitude, Time)
+SELECT CameraID, VehicleRegistration, Speed, SpeedLimit, LocationLatitude, LocationLongitude, Time
+FROM @speedRecords;

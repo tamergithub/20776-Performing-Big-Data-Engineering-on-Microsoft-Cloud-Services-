@@ -1,0 +1,17 @@
+WITH
+    StockPriceAnomalies AS (
+         SELECT
+              StockPriceAnomaly(Ticker, Price, DATEPART(hour, QuoteTime)) AS Results 
+         FROM
+              StockMarket
+         TIMESTAMP BY 
+              QuoteTime)
+
+SELECT
+     Results.Ticker, Results.Price, Results.HourOfDay
+INTO
+     SuspectPrices
+FROM
+     StockPriceAnomalies
+WHERE
+     Results.[Scored Labels] = '1'

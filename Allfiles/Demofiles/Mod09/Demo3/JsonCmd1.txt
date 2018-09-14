@@ -1,0 +1,27 @@
+{
+  "name": "Input Blob - Decision Tree",
+  "properties": {
+    "type": "AzureBlob",
+    "linkedServiceName": "AzureStorageLinkedService",
+    "typeProperties": {
+      "folderPath": "pricedata/dfinput",
+      "fileName": "PricesLiveData.csv",
+      "format": {
+        "type": "TextFormat",
+        "columnDelimiter": ","
+      }
+    },
+    "external": true,
+    "availability": {
+      "frequency": "Minute",
+      "interval": 15
+    },
+    "policy": {
+      "externalData": {
+        "retryInterval": "00:01:00",
+        "retryTimeout": "00:10:00",
+        "maximumRetry": 3
+      }
+    }
+  }
+}

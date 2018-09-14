@@ -1,0 +1,29 @@
+Login-AzureRmAccount –TenantID <DirectoryID>
+
+$dataLakeStoreName = "<name of your Data Lake Store>"
+
+Get-AzureRmDataLakeStoreChildItem –AccountName $dataLakeStoreName -Path "/VehicleOwnerData"
+
+$path= "/VehicleOwnerData/VehicleOwners.csv"
+
+$download= "E:\Labfiles\Lab04\Exercise1\VehicleOwners-downloaded.csv"
+
+Export-AzureRmDataLakeStoreItem -Account $dataLakeStoreName -Path $path -Destination $download
+
+DIR E:\Labfiles\Lab04\Exercise1\
+
+Export-AzureRmDataLakeStoreItem -Account $dataLakeStoreName -Path $path -Destination $download -Force
+
+DIR E:\Labfiles\Lab04\Exercise1\
+
+$upload= "/VehicleOwnerData/VehicleOwnersUpdated.csv"
+
+$fileName = "E:\Labfiles\Lab04\Exercise1\VehicleOwners.csv"
+
+Import-AzureRmDataLakeStoreItem  -Account $dataLakeStoreName -Path $fileName -Destination $upload
+
+Import-AzureRmDataLakeStoreItem  -Account $dataLakeStoreName -Path $fileName -Destination $upload -Force
+
+Get-AzureRmDataLakeStoreChildItem –AccountName $dataLakeStoreName -Path "/VehicleOwnerData"
+
+Import-AzureRmDataLakeStoreItem  -Account $dataLakeStoreName -Path $fileName -Destination $upload -Force

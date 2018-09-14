@@ -1,0 +1,20 @@
+﻿// Retrieve the data from the StockPriceData.csv file in Data Lake Storage
+@stockData = EXTRACT
+  Ticker string,
+  Price int,
+  QuoteTime DateTime
+FROM "/StockPriceData.csv"
+USING Extractors.Csv(skipFirstNRows: 1);
+
+// Use the SuspiciousMovement function to find suspect stock price movements
+@result =
+    SELECT Ticker,
+           Price,
+           QuoteTime
+    FROM @stockData
+    WHERE PriceMovementAnalysis.PriceAnalyzer.SuspiciousMovement(Ticker, Price, QuoteTime) == true;
+
+// Save the results
+OUTPUT @result
+TO "/SuspiciousMovements.csv"
+USING Outputters.Csv(quoting: false, outputHeader: true);

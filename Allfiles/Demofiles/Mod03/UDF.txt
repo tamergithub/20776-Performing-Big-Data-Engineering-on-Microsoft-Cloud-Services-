@@ -1,0 +1,71 @@
+// UDF that returns the most volatile stock item recorded during the current time window
+function main(stockPriceChanges) {
+    var stockItems = [];
+    
+    // Iterate through the records in the array and organize the data as a collection of price changes for each distinct ticker
+    stockPriceChanges.forEach(
+        function(item, index, array) {
+
+            // Retrieve the data of interest from the array item
+            var ticker = item.Ticker;
+            var price = item.Price;
+
+            // Check whether an existing record already exists in the stockItems array for this ticker
+            var existingRecord = findStockItemRecords(ticker, stockItems);
+
+            // If not, create a new record
+            if (!existingRecord) {                
+                stockItems.push({Ticker: ticker, Prices: []});
+                existingRecord = stockItems[stockItems.length - 1];
+            } 
+
+            // Add the price information to the record for this ticke
+            existingRecord.Prices.push(price);
+        }
+    );
+
+    var mostVolatileTicker = "";
+    var maxPrice = 0;
+    var minPrice = 0;
+    var numChanges = 10; // Minimum number of price changes to consider
+
+    // Now find which item is the most volatile
+    for (var i = 0; i < stockItems.length; i++) {
+        var itemPriceChanges = stockItems[i].Prices.length;
+        if (itemPriceChanges >= numChanges) {
+            numChanges = itemPriceChanges;
+            var possMaxPrice = stockItems[i].Prices[0];
+            var possMinPrice = stockItems[i].Prices[0];
+            for (var j = 1; j < itemPriceChanges; j++) {
+
+                if (stockItems[i].Prices[j] >= possMaxPrice) {
+                    possMaxPrice = stockItems[i].Prices[j]; 
+                }
+
+                if (stockItems[i].Prices[j] <= possMaxPrice) {
+                    possMinPrice = stockItems[i].Prices[j]; 
+                }
+
+                if (possMaxPrice - possMinPrice >= maxPrice - minPrice) {
+                    maxPrice = possMaxPrice;
+                    minPrice = possMinPrice;
+                    mostVolatileTicker = stockItems[i].Ticker;
+                }
+            }
+        }
+    }
+
+    return {Ticker: mostVolatileTicker, NumChanges: numChanges, MaxPrice: maxPrice, MinPrice: minPrice};
+}
+
+// Check to see whether a record for the specified ticker already exists, and if so, return it
+function findStockItemRecords(ticker, array) {
+    
+    for(var i = 0; i < array.length; i++) {
+        if (array[i].Ticker === ticker) {
+            return array[i];
+        }
+    }
+
+    return null;
+}

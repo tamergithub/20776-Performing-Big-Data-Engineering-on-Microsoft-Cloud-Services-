@@ -1,0 +1,23 @@
+﻿// Drop and rebuild the PriceDifferentials view. This view partitions the data by Ticker and calculates the max and min prices for each Ticker. It also computes the difference in price from one record to the next.
+DROP VIEW IF EXISTS StockPrices.dbo.PriceDifferentials;
+
+CREATE VIEW IF NOT EXISTS StockPrices.dbo.PriceDifferentials AS
+SELECT Ticker, Price, QuoteTime, MAX(Price) OVER (PARTITION BY Ticker) AS MaxPrice, MIN(Price) OVER (PARTITION BY Ticker) AS MinPrice,
+       Price - LAG(Price, 1, 0) OVER (PARTITION BY Ticker ORDER BY QuoteTime) AS DifferenceFromPreviousPrice
+       FROM StockPrices.dbo.StockPriceMovements;
+
+// Retrieve data using the PriceDifferentials view
+@priceDifferences =
+    SELECT Ticker, Price, QuoteTime, DifferenceFromPreviousPrice, MaxPrice, MinPrice
+    FROM StockPrices.dbo.PriceDifferentials;
+
+// Send the data to the Analysis.csv file
+OUTPUT @priceDifferences
+TO "/Stocks/Analysis.csv"
+ORDER BY Ticker
+USING Outputters.Csv(outputHeader: true);
+
+
+
+
+

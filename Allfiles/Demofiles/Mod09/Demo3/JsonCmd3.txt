@@ -1,0 +1,37 @@
+{
+  "name": "ML Predictive Pipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "ML Activity",
+        "type": "AzureMLBatchExecution",
+        "inputs": [
+          {
+            "name": "Input Blob - Decision Tree"
+          }
+        ],
+        "outputs": [
+          {
+            "name": "Output Blob - Decision Tree"
+          }
+        ],
+        "linkedServiceName": "AzureMLLinkedService",
+        "typeProperties":
+        {
+            "webServiceInput": "Input Blob - Decision Tree",
+            "webServiceOutputs": {
+                "output1": "Output Blob - Decision Tree"
+            }                
+        },
+        "policy": {
+          "concurrency": 3,
+          "executionPriorityOrder": "NewestFirst",
+          "retry": 1,
+          "timeout": "02:00:00"
+        }
+      }
+    ],
+    "start": "2017-10-23T00:00:00Z",
+    "end": "2017-10-24T00:00:00Z"
+  }
+}

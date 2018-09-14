@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{182E2583-ECAD-465B-BB50-91101D7C24CE}") = "PriceMovementAnalysis", "PriceMovementAnalysis\PriceMovementAnalysis.usqlproj", "{867EBD10-93F9-46B0-A9A3-56DFD5386ACB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{867EBD10-93F9-46B0-A9A3-56DFD5386ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{867EBD10-93F9-46B0-A9A3-56DFD5386ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{867EBD10-93F9-46B0-A9A3-56DFD5386ACB}.Debug|x64.ActiveCfg = Debug|x64
+		{867EBD10-93F9-46B0-A9A3-56DFD5386ACB}.Debug|x64.Build.0 = Debug|x64
+		{867EBD10-93F9-46B0-A9A3-56DFD5386ACB}.Debug|x86.ActiveCfg = Debug|x86
+		{867EBD10-93F9-46B0-A9A3-56DFD5386ACB}.Debug|x86.Build.0 = Debug|x86
+		{867EBD10-93F9-46B0-A9A3-56DFD5386ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{867EBD10-93F9-46B0-A9A3-56DFD5386ACB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{867EBD10-93F9-46B0-A9A3-56DFD5386ACB}.Release|x64.ActiveCfg = Release|x64
+		{867EBD10-93F9-46B0-A9A3-56DFD5386ACB}.Release|x64.Build.0 = Release|x64
+		{867EBD10-93F9-46B0-A9A3-56DFD5386ACB}.Release|x86.ActiveCfg = Release|x86
+		{867EBD10-93F9-46B0-A9A3-56DFD5386ACB}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1ED24A7B-9007-463E-ACCE-9F9490267320}
+	EndGlobalSection
+EndGlobal

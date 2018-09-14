@@ -1,0 +1,13 @@
+Login-AzureRmAccount
+
+Get-AzureRMStreamAnalyticsJob -NoExpand
+
+Stop-AzureRMStreamAnalyticsJob -ResourceGroupName CamerasRG –Name PatrolCarAnalytics
+
+(Get-AzureRmStreamAnalyticsJob -ResourceGroupName CamerasRG -Name PatrolCarAnalytics).JobState
+
+New-AzureRmStreamAnalyticsTransformation -File E:\Labfiles\Lab02\patrolcaranalytics.json -JobName PatrolCarAnalytics -ResourceGroupName CamerasRG -Name Transformation -Force
+
+Start-AzureRMStreamAnalyticsJob -ResourceGroupName CamerasRG –Name PatrolCarAnalytics
+
+(Get-AzureRmStreamAnalyticsJob -ResourceGroupName CamerasRG -Name PatrolCarAnalytics).JobState

@@ -1,0 +1,8 @@
+﻿Install-Module AzureRM -AllowClobber;
+Import-Module AzureRM;
+
+Login-AzureRmAccount;
+
+New-AzureRmDataLakeAnalyticsCatalogCredential -AccountName "<name of your ADLA account>" -DatabaseName "StockPrices" -CredentialName "StocksDBCredential" -Credential (Get-Credential) -DatabaseHost "<name of your Azure SQL Database Server>.database.windows.net" -Port 1433;
+
+# Remove-AzureRmDataLakeAnalyticsCatalogCredential -AccountName "<name of your ADLA account>" -DatabaseName "StockPrices" -Name "StocksDBCredential";

@@ -1,0 +1,86 @@
+// Determine whether the input data (an array containing the data for the current time window), contains duplicate vehicle registration numbers
+// captured by different speed cameras at an impossible or unlikely distance apart.
+function main(data) {
+
+    var regLocations = [];
+    
+    // Iterate through the records in the array and organize the data as a collection of locations for each distinct vehicle registration
+    data.forEach(
+        function(item, index, array) {
+
+            // Retrieve the data of interest from the array item
+            var reg = item.VehicleRegistration;
+            var loc = {Lat: item.LocationLatitude, Long: item.LocationLongitude};
+
+            // Check whether an existing record already exists in the regLocations array for this vehicle registration
+            var existingRecord = findVehicleRecords(reg, regLocations);
+
+            // If not, create a new record
+            if (!existingRecord) {                
+                regLocations.push({VehicleRegistration: reg, Locations: []});
+                existingRecord = regLocations[regLocations.length - 1];
+            } 
+
+            // Add the location information to the record for this vehicle
+            existingRecord.Locations.push(loc);
+        }
+    );
+
+    // Examine the distance between locations for each registration recorded in regLocations
+    // If the distance is greater than that which could feasibly be travelled at 60 mph in the time window, then treat the vehicle registration as "suspicious"
+    // Note that this defintion is foolproof, but gives a good indication of whether a registration has likely been duplicated 
+    var suspiciousVehicles = [];
+
+    // Iterate through the items in the regLocations array
+    regLocations.forEach(
+        function(vehicleItem, vehicleIndex, vehicleArray) {
+            
+            // For each vehicle, iterate through the list of locations
+            vehicleItem.Locations.forEach(
+                function(locationItem, locationIndex, locationArray) {
+                    for (var i = locationIndex; i < locationArray.length; i++) {
+                        var distanceFromCurrentLocation = distanceBetween(locationItem, locationArray[i]);
+                        
+                        // If there are more than 2 miles (60 mph for 2 mins) between vehicle locations, then flag this vehicle as suspicious
+                        if (distanceFromCurrentLocation > 2) {
+                            suspiciousVehicles.push(vehicleItem);
+                            break;
+                        }
+                    }
+                }
+            );
+        }
+    );
+
+    // Return the array containing the location information for suspicious vehicles
+    return suspiciousVehicles;
+}
+
+// Check to see whether a record for the specified vehicle already exists, and if so, return it
+function findVehicleRecords(reg, array) {
+    
+    for(var i = 0; i < array.length; i++) {
+        if (array[i].VehicleRegistration === reg) {
+            return array[i];
+        }
+    }
+
+    return null;
+}
+
+// Calculate the distance between two geo-points (as the crow flies)
+// Use the Haversine formuala, which utilizes non-Euclidean geometry
+function distanceBetween(pointA, pointB) {
+    var earthRadius = 3960;  // radius of the Earth in miles, approx.
+
+    var latitudeDistanceInDegrees = pointA.Lat - pointB.Lat;
+    var latitudeDistanceInRadians = latitudeDistanceInDegrees * (Math.PI/180);
+    var longitudeDistanceInDegrees = pointA.Long - pointB.Long;
+    var longitudeDistanceInRadians = longitudeDistanceInDegrees * (Math.PI/180);
+    var pointALatInRadians = pointA.Lat * (Math.PI/180);
+    var pointBLatInRadians = pointB.Lat * (Math.PI/180);
+    
+    var a = Math.sin(latitudeDistanceInRadians/2) * Math.sin(latitudeDistanceInRadians/2) + Math.sin(longitudeDistanceInRadians/2) * Math.sin(longitudeDistanceInRadians/2) * Math.cos(pointALatInRadians) * Math.cos(pointBLatInRadians);
+    var b = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return earthRadius * b; 
+}

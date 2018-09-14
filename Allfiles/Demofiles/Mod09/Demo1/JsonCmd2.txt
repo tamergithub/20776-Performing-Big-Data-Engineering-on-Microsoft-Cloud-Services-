@@ -1,0 +1,21 @@
+{
+    "name": "Output Azure Blob Dataset",
+    "properties": {
+        "type": "AzureBlob",
+        "linkedServiceName": "AzureStorageLinkedService",
+        "typeProperties": {
+		    "fileName": "StockPrices.csv",
+            "folderPath": "pricedata/dfoutput",
+            "format": {
+                "type": "TextFormat",
+                "columnDelimiter": ","
+            }
+        },
+        "external": false,			
+        "availability": {
+            "frequency": "Minute",
+            "interval": 30
+        },
+		"policy": {}
+    }
+ }

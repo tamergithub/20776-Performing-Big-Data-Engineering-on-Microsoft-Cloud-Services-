@@ -1,0 +1,28 @@
+﻿// Set the context to the StockPrices database in the catalog
+USE DATABASE StockPrices;
+
+// Delete the RemoteStockDB data source if it currently exists
+DROP DATA SOURCE IF EXISTS RemoteStocksDB ;
+
+// Create the RemoteStocksDB data source.
+CREATE DATA SOURCE IF NOT EXISTS RemoteStocksDB 
+FROM AZURESQLDB 
+WITH (
+    PROVIDER_STRING = "Database=StockDB;Trusted_Connection=False;Encrypt=True;",
+    CREDENTIAL = StocksDBCredential,
+    REMOTABLE_TYPES = (bool, byte, sbyte, short, int, long, decimal, float, double, string, DateTime)
+     );
+
+// Generate a rowset that joins data held in the StockPrices database in the catalog with the data in the Azure SQL database
+@results =
+  SELECT A.Name, S.Ticker, S.Price, S.QuoteTime, S.DifferenceFromPreviousPrice
+  FROM PriceDifferentials AS S
+  INNER JOIN
+  EXTERNAL RemoteStocksDB LOCATION "dbo.StockNames" AS A
+  ON A.Ticker == S.Ticker;
+
+// Send the results to the StockData.csv file
+OUTPUT @results
+TO "/Stocks/StockData.csv"
+ORDER BY Ticker
+USING Outputters.Csv(outputHeader: true);

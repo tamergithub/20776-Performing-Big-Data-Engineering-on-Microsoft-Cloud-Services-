@@ -1,0 +1,3 @@
+SELECT TOP(2000) *
+   FROM StockPriceData
+GO
