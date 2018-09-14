@@ -1,0 +1,37 @@
+﻿REFERENCE ASSEMBLY ImageCommon;
+REFERENCE ASSEMBLY FaceSdk;
+REFERENCE ASSEMBLY ImageEmotion;
+REFERENCE ASSEMBLY ImageTagging;
+REFERENCE ASSEMBLY ImageOcr;
+
+DECLARE @resultsFile = @"/EmotionAnalysis.csv";
+
+@emotionsFromExtractor =
+    EXTRACT FileName string, 
+        NumFaces int, 
+        FaceIndex int, 
+        RectX float, 
+        RectY float, 
+        Width float, 
+        Height float, 
+        Emotion string, 
+        Confidence float
+    FROM @"/{FileName}.jpg"
+    USING new Cognition.Vision.EmotionExtractor();
+
+@emotionData =
+    SELECT FileName,
+           NumFaces, 
+           FaceIndex, 
+           RectX, 
+           RectY, 
+           Width, 
+           Height, 
+           Emotion, 
+           Confidence
+    FROM @emotionsFromExtractor
+    WHERE FileName IN ("OFC16_Meeting_002", "MSC13_Louis_04", "MSC13_Everald_03");
+
+OUTPUT @emotionData
+TO @resultsFile
+USING Outputters.Csv(outputHeader : true, quoting : false);

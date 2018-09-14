@@ -1,0 +1,6 @@
+INSERT INTO [dbo].[Test]
+           ([Column1]
+           ,[Column2])
+     VALUES
+           (101, 'Test row 1')
+GO

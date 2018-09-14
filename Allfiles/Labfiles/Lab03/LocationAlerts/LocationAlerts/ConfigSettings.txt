@@ -1,0 +1,10 @@
+﻿Token=rFKCCXAySOw9kabAO2og~WsvzgjbUCkS3fjvXmYpyNg~Aqck0uO23OKUH2E4aKz9dj5B8LznSDhU5GxAgsKb0-3aw_3MjwSumPYanku29PUq
+LatitudeNorth=51.726824
+LatitudeSouth=51.213559
+LongitudeEast=0.335083
+LongitudeWest=-0.554810
+ServicebusEndpoint=YourServiceBusName.servicebus.windows.net
+QueueName=LocationAlerts
+CameraQueueName=SpeedCameraAlerts
+SASKeyName=RootManageSharedAccessKey
+SASKey=YourPrimaryKey

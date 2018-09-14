@@ -1,0 +1,10 @@
+SELECT 
+    COUNT(*) AS Num, VehicleType
+INTO
+    VisualStats
+FROM
+     VehicleData
+TIMESTAMP BY
+     time
+GROUP BY
+     TumblingWindow(second , 5), VehicleType

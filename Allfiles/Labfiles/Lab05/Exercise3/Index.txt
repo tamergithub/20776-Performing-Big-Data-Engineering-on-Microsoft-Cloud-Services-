@@ -1,0 +1,6 @@
+CREATE INDEX RegIdx
+ON [dbo].[ownerdata] 
+(
+	[Vehicle Registration]
+)
+GO

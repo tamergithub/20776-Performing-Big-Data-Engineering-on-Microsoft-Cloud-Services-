@@ -1,0 +1,26 @@
+# Log in to Azure
+Login-AzureRmAccount
+
+# Register the Azure Data Lake Store provider
+Register-AzureRmResourceProvider -ProviderNamespace "Microsoft.DataLakeStore"
+
+# Create a new Resource Group
+New-AzureRmResourceGroup -Location "<location>" -Name "LakeStoreRG"
+
+# Create a new Data Lake Store Account
+$resourceGroupName = "LakeStoreRG"
+$dataLakeStoreName = "<name of new Data Lake Store>"
+New-AzureRmDataLakeStoreAccount -ResourceGroupName $resourceGroupName -Name $dataLakeStoreName -Location "<location>"
+
+# Verify that the Data Lake Store account has been created
+Test-AzureRmDataLakeStoreAccount -Name $dataLakeStoreName
+
+# Create a folder named VehicleOwnerData
+$folder="/VehicleOwnerData"
+New-AzureRmDataLakeStoreItem -Folder -AccountName $dataLakeStoreName -Path $folder
+
+# Upload the VehicleOwners.csv file to the VehicleOwnerData folder
+Import-AzureRmDataLakeStoreItem -Account $dataLakeStoreName -Path "E:\Labfiles\Lab04\Exercise1\VehicleOwners.csv" -Destination $folder\VehicleOwners.csv
+
+# List all files and folders in the VehicleOwnerData directory
+Get-AzureRmDataLakeStoreChildItem -AccountName $dataLakeStoreName -Path $folder

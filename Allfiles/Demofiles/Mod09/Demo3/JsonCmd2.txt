@@ -1,0 +1,37 @@
+{
+  "name": "Output Blob - Decision Tree",
+  "properties": {
+    "type": "AzureBlob",
+    "linkedServiceName": "AzureStorageLinkedService",
+    "typeProperties": {
+      "folderPath": "pricedata/scored/{folderpart}/",
+      "fileName": "{filepart}result.csv",
+      "partitionedBy": [
+        {
+          "name": "folderpart",
+          "value": {
+            "type": "DateTime",
+            "date": "SliceStart",
+            "format": "yyyyMMdd"
+          }
+        },
+        {
+          "name": "filepart",
+          "value": {
+            "type": "DateTime",
+            "date": "SliceStart",
+            "format": "HHmmss"
+          }
+        }
+      ],
+      "format": {
+        "type": "TextFormat",
+        "columnDelimiter": ","
+      }
+    },
+    "availability": {
+      "frequency": "Minute",
+      "interval": 15
+    }
+  }
+}

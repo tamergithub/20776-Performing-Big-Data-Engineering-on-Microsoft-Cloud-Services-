@@ -1,0 +1,38 @@
+﻿// Retrieve the data from the StockPriceData.csv file in Data Lake Storage
+@stockData = EXTRACT
+  Ticker string,
+  Price int,
+  QuoteTime DateTime,
+  Year int,
+  Month int,
+  Day int
+FROM "/Stocks/{Year}/{Month}/{Day}/Prices.csv"
+USING Extractors.Csv(skipFirstNRows: 1);
+
+// Create a SQL Database to hold the data for processing, later
+DROP DATABASE IF EXISTS StockPrices;
+CREATE DATABASE IF NOT EXISTS StockPrices;
+
+// Create a table to hold the data
+CREATE TABLE IF NOT EXISTS StockPrices.dbo.StockPriceMovements
+(
+  Ticker string,
+  Price int,
+  QuoteTime DateTime,
+  // Use an index to store the date in QuoteTime order, but break it up into partitions for each ticker
+  INDEX StockIdx CLUSTERED (QuoteTime ASC) DISTRIBUTED BY HASH(Ticker)
+);
+
+// Copy the data into the StockPriceMovements table
+INSERT INTO StockPrices.dbo.StockPriceMovements(Ticker, Price, QuoteTime)
+SELECT Ticker, Price, QuoteTime
+FROM @stockData;
+
+
+@result =
+    SELECT Ticker, Price, QuoteTime
+    FROM @stockData;
+
+OUTPUT @result
+TO "/Stocks/CombinedPrices.csv"
+USING Outputters.Csv();

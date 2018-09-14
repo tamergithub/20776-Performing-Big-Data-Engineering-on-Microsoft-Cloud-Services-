@@ -1,0 +1,35 @@
+﻿REFERENCE ASSEMBLY [ExtPython];
+
+DECLARE @stockData = @"/StockPriceData.csv";
+DECLARE @resultsData = @"/StockPriceAnalysis.csv";
+
+@stockPriceMovements =
+    EXTRACT Ticker string,
+            Price int,
+            QuoteTime string
+    FROM @stockData
+    USING Extractors.Csv(skipFirstNRows : 1);
+
+DECLARE @PythonScript = @"
+def usqlml_main(df):
+  import pandas as pd
+
+  df.sort_values(['QuoteTime'])
+  prices = df.groupby(['Ticker'])
+  openingPrices = prices['Price'].first()
+  lowestPrices = prices['Price'].min()
+  highestPrices = prices['Price'].max()
+  closingPrices = prices['Price'].last()
+  result = pd.concat([openingPrices, lowestPrices, highestPrices, closingPrices], axis = 1).reset_index()
+  result.columns = ['Ticker', 'OpeningPrice', 'LowestPrice', 'HighestPrice', 'ClosingPrice']
+  return result
+";
+
+@RScriptOutput = REDUCE @stockPriceMovements
+    ALL
+    PRODUCE Ticker string, OpeningPrice int, LowestPrice int, HighestPrice int, ClosingPrice int
+    USING new Extension.Python.Reducer(pyScript : @PythonScript);
+
+OUTPUT @RScriptOutput
+TO @resultsData
+USING Outputters.Csv(outputHeader : true, quoting : false);

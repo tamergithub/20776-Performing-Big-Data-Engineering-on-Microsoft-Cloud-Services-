@@ -1,0 +1,8 @@
+SELECT
+     CameraID,Speed,DATEPART(hour, Time)
+AS
+     HourOfDay
+INTO
+     TrafficData
+FROM
+     CameraDataFeed4

@@ -1,0 +1,12 @@
+# Log in to Azure
+Login-AzureRmAccount
+
+$dataLakeStoreName = "<name of your Data Lake Store>"
+
+# List all files and folders in the root directory
+$myrootdir = "/"
+Get-AzureRmDataLakeStoreChildItem -AccountName $dataLakeStoreName -Path $myrootdir
+
+# List the files in the Engineering directory 
+$mydir="/Engineering"
+Get-AzureRmDataLakeStoreChildItem -AccountName $dataLakeStoreName -Path "$mydir"

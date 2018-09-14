@@ -1,0 +1,22 @@
+# Log in to Azure
+Login-AzureRmAccount
+
+# Upload the file and note the time taken
+$dataLakeStoreName = "<name of your Data Lake Store>"
+$dest= "/Engineering/datafile10.json"
+$fileName = "E:\Demofiles\Mod04\Demo2\bigtestdata.json"
+$time = [System.Diagnostics.Stopwatch]::StartNew()
+$startTime = $time.Elapsed
+Import-AzureRmDataLakeStoreItem  -Account $dataLakeStoreName -Path $fileName -Destination $dest
+$endTime = $time.Elapsed
+$elapsedTime = $endTime - $startTime
+write-host "Elapsed time: $($elapsedTime.ToString("hh\:mm\:ss"))" 
+
+# Repeat the upload but with PerFileThreadCount set to 30
+# Note that the name of the destination file in the $dest variable is changed to prevent an "overwrite" error
+$dest = "/Engineering/datafile30.json"
+$startTime = $time.Elapsed
+Import-AzureRmDataLakeStoreItem  -Account $dataLakeStoreName -Path $fileName -Destination $dest -PerFileThreadCount 30
+$endTime = $time.Elapsed
+$elapsedTime = $endTime - $startTime
+write-host "Elapsed time: $($elapsedTime.ToString("hh\:mm\:ss"))" 

@@ -1,0 +1,70 @@
+// Create a table for recording fines and summonses:
+
+CREATE TABLE IF NOT EXISTS VehicleData.dbo.Fines
+(
+        CameraID string,
+        VehicleRegistration string,
+        Speed int,
+        SpeedLimit int,
+        TimeCaught DateTime,
+        PenaltyType string, // "P" for a Fixed Penalty (£100), "S" for a Summons (for excessive speeds, fine amount to be determined by a magistrate)
+        PenaltyIssuedWhen DateTime,
+        PenaltyIssuedTo string, // Full name of owner, including title
+        OffenderAddress string, // Full address of the owner
+    INDEX finesidx
+    CLUSTERED (CameraID ASC)
+    DISTRIBUTED BY HASH (CameraID)                   
+);
+
+// Define a rowset that fetches the vehicle owner data from the ownerdata.csv file (skip the headers in the first line):
+
+@vehicleOwnerData = 
+    EXTRACT VehicleRegistration string,
+            Title string,
+            Forename string,
+            Surname string,
+            AddressLine1 string,
+            AddressLine2 string,
+            AddressLine3 string,
+            AddressLine4 string
+    FROM "/vehicles/ownerdata.csv"
+    USING Extractors.Csv(skipFirstNRows: 1);  
+
+// Create a rowset that joins the speed data with the vehicle owner data so we know where to send fines/summonses. Make the owner title and names a single string, and concatenate the address information into another single string (with semi-colons between each line of the address):
+
+@speedsAndOwners =
+    SELECT S.CameraID AS CameraID, S.VehicleRegistration AS VehicleRegistration, S.Speed AS Speed, S.SpeedLimit AS SpeedLimit,
+           S.Time AS TimeCaught, O.Title + " " + O.Forename + " " + O.Surname AS PenaltyIssuedTo, 
+           O.AddressLine1 + "; " + O.AddressLine2 + "; " + O.AddressLine3 + "; " + O.AddressLine4 AS OffenderAddress
+    FROM @speedRecords AS S
+    JOIN @vehicleOwnerData AS O
+    ON S.VehicleRegistration == O.VehicleRegistration;
+
+// Process each row of data from the speed camera as follows:
+//      - If the speed shown is less than the speed limit + 5%, do not raise a fixed penalty or summons
+//      - If the speed shown is between the speed limit + 5% and the speed limit + 30 mph, generate a fixed penalty fine
+//      - If the speed is greater than the speed limit + 30 mph then issue a summons to appear in court
+
+@fines =
+    SELECT *, DateTime.UtcNow AS PenaltyIssuedWhen,
+           Speed >= SpeedLimit * 1.05 && Speed <= SpeedLimit + 30 ? "P" :
+           Speed >= SpeedLimit + 30 ? "S" : "" AS PenaltyType
+    FROM @speedsAndOwners;
+
+// Save the details for fines and summonses to the Fines table in the database. Do not record data for legal traffic speeds:
+
+INSERT INTO VehicleData.dbo.Fines (CameraID, VehicleRegistration, Speed, SpeedLimit, TimeCaught, PenaltyType, PenaltyIssuedWhen, PenaltyIssuedTo, OffenderAddress)
+SELECT CameraID, VehicleRegistration, Speed, SpeedLimit, TimeCaught, PenaltyType, PenaltyIssuedWhen, PenaltyIssuedTo, OffenderAddress
+FROM @fines
+WHERE !String.IsNullOrEmpty(PenaltyType);
+
+// Copy the data to an output file as well. Note that you cannot read data from the VehicleData.dbo.Fines table as it could be mutating:
+
+@results =
+  SELECT CameraID, VehicleRegistration, Speed, SpeedLimit, TimeCaught, PenaltyType, PenaltyIssuedWhen, PenaltyIssuedTo, OffenderAddress
+  FROM @fines
+  WHERE !String.IsNullOrEmpty(PenaltyType);
+
+OUTPUT @results
+TO "/FinesAndSummonses.csv"
+USING Outputters.Csv(outputHeader: true);

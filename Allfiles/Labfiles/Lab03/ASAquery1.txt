@@ -1,0 +1,8 @@
+SELECT
+     CameraID,LocationLatitude,LocationLongitude,SpeedLimit,VehicleRegistration,Speed 
+INTO
+     SpeedCameraAlerts
+FROM
+     CameraDataFeed3
+WHERE
+     UDF.IsSpeeding(SpeedLimit, Speed) = 1

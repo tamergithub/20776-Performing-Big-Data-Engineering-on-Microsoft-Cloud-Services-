@@ -1,0 +1,23 @@
+﻿REFERENCE ASSEMBLY CustomOperators;
+
+// Retrieve the data from the StockPriceData.csv file in Data Lake Storage
+@stockData = EXTRACT
+  Ticker string,
+  Price int,
+  QuoteTime DateTime
+FROM "/StockPriceData.csv"
+USING Extractors.Csv(skipFirstNRows: 1);
+
+// Use the custom processor to find suspect stock price movements
+@result =
+     PROCESS @stockData
+     PRODUCE Ticker String,
+             Price int,
+             QuoteTime DateTime,
+             Suspicious String
+     USING new CustomOperators.FlagRowsForInvestigation();
+
+// Save the results
+OUTPUT @result
+TO "/Movements.csv"
+USING Outputters.Csv(quoting: false, outputHeader: true);

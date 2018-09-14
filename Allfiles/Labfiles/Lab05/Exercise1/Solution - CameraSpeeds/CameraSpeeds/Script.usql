@@ -1,0 +1,32 @@
+﻿// Specify the format and location of the camera dat
+@cameraData =
+    EXTRACT CameraID string,
+            VehicleRegistration string,
+            Speed int,
+            SpeedLimit int,
+            LocationLatitude double,
+            LocationLongitude double,
+            Time DateTime
+    FROM "/speeds/2017/08/30/16/speeds1.csv"
+    USING Extractors.Csv(skipFirstNRows: 1);
+
+// Read the data and calculate the average speed reported by each camera
+@avgspeeds = 
+    SELECT CameraID, AVG(Speed) AS AvgSpeed
+    FROM @cameraData
+    GROUP BY CameraID;
+
+// Write the results out to a CSV file
+OUTPUT @avgspeeds
+TO "/AverageSpeeds.csv"
+USING Outputters.Csv(outputHeader: true);
+
+// Calculate the rolling average over the last 25 observations for each speed camera
+@rollingAvgSpeeds =
+    SELECT CameraID, Time, Speed, AVG(Speed) OVER (PARTITION BY CameraID ORDER BY Time ROWS 25 PRECEDING) AS RollingAverage
+    FROM @cameraData;
+
+// Write the results out to a CSV file
+OUTPUT @rollingAvgSpeeds
+TO "/RollingAverageSpeeds.csv"
+USING Outputters.Csv(outputHeader: true);

@@ -1,0 +1,21 @@
+﻿REFERENCE ASSEMBLY CustomOperators;
+
+// Retrieve the data from the StockPriceData.csv file in Data Lake Storage
+@stockData = EXTRACT
+  Ticker string,
+  Price int,
+  QuoteTime DateTime
+FROM "/StockPriceData.csv"
+USING Extractors.Csv(skipFirstNRows: 1);
+
+// Use the custom applier to add the opening price and percentage price change to the dat
+@result =
+     SELECT S.Ticker, S.Price, S.QuoteTime, OpeningPrice, PercentChange
+     FROM @stockData AS S
+     CROSS APPLY
+     USING new CustomOperators.GetStockAnalytics() AS PriceData(Ticker string, OpeningPrice int, PercentChange double);
+
+// Save the results
+OUTPUT @result
+TO "/PriceChanges.csv"
+USING Outputters.Csv(quoting: false, outputHeader: true);

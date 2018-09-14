@@ -1,0 +1,42 @@
+﻿# Set variables used by this script to the appropriate values
+$subName = "Azure Pass"
+$groupName = "Cameras"
+$jobName = "VehicleAnalytics"
+$storeAccountName = "jobstore<yourname><date>"
+$location = "<your location>"
+
+# Log in to the Azure account
+Login-AzureRmAccount
+
+# Connect to the subscription
+Get-AzureRmSubscription -SubscriptionName $subName | Select-AzureRmSubscription
+
+# Retrieve and display information about the ASA job
+$jobInfo = Get-AzureRMStreamAnalyticsJob -ResourceGroupName $groupName -Name $jobName
+
+# Get the resource ID for the ASA job
+$asaJobId = $jobInfo.Properties.Id
+
+# Create a storage account (if it doesn't already exist)
+if ((Get-AzureRmStorageAccountNameAvailability -Name $storeAccountName).NameAvailable)
+{
+    $storeAccount = New-AzureRMStorageAccount -ResourceGroupName $groupName -Name $storeAccountName -SkuName Standard_LRS -Location $location
+}
+else
+{
+    $storeAccount = Get-AzureRmStorageAccount -ResourceGroupName $groupName -Name $storeAccountName
+}
+
+# Specify the diagnostics settings for the job - capture all diagnostics
+Set-AzureRmDiagnosticSetting -ResourceId $asaJobId -Enabled $True -StorageAccountId $storeAccount.Id
+
+# Start the job running - only capture new data
+Start-AzureRMStreamAnalyticsJob -ResourceGroupName $groupName -Name $jobName -OutputStartMode JobStartTime 
+
+# Wait for a couple of minutes while the job captures some data
+Write-Host "Job Running"
+Start-Sleep -s 120
+Write-Host "Stopping Job"
+
+# Stop the job
+Stop-AzureRmStreamAnalyticsJob -ResourceGroupName $groupName -Name $jobName

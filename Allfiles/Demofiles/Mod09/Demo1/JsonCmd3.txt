@@ -1,0 +1,40 @@
+{
+     "name": "Stocks DF Pipeline",
+     "properties": {
+        "activities": [
+          {
+            "name": "SQLtoBlob",
+            "type": "Copy",
+            "inputs": [
+              {
+                "name": "Input SQL Server Dataset"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "Output Azure Blob Dataset"
+              }
+            ],
+            "policy": {
+                "timeout": "01:00:00",
+                "concurrency": 1,
+                "executionPriorityOrder": "NewestFirst",
+                "style": "StartOfInterval",
+                "retry": 0
+            },			
+            "typeProperties": {
+              "source": {
+                "type": "SqlSource",
+                "sqlReaderQuery": "select * from StockPriceData"
+              },
+              "sink": {
+                "type": "BlobSink",
+				"blobWriterAddHeader": true
+              }
+            }
+           }
+        ],
+        "start": "2017-10-23T00:00:00Z",
+        "end": "2017-10-24T00:00:00Z"
+      }
+ }

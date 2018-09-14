@@ -1,0 +1,8 @@
+SELECT
+     UDF.DuplicatedVehicle(Collect())
+INTO
+     DuplicateVehicles
+FROM
+     VehicleFeed
+GROUP BY
+     TumblingWindow(minute, 2)

@@ -1,0 +1,6 @@
+SELECT
+     Ticker, Price, QuoteTime
+INTO
+     StockMarketPrices
+FROM
+     StockMarket

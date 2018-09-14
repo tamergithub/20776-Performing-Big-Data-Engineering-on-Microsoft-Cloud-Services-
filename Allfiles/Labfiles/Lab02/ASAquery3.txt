@@ -1,0 +1,20 @@
+SELECT
+     CarID,LocationLatitude,LocationLongitude,System.TimeStamp AS Time
+INTO
+     PatrolCarVisualData
+FROM
+     PatrolCarDataFeed
+
+SELECT
+     *
+INTO
+     PatrolCarStoredData
+FROM
+     PatrolCarDataFeed2
+	 
+SELECT
+     CarID,CarNum,LocationLatitude,LocationLongitude,Speed 
+INTO
+     PatrolCarLocationAlerts
+FROM
+     PatrolCarDataFeed3

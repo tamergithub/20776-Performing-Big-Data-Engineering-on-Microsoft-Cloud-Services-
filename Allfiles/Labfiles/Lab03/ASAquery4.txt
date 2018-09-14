@@ -1,0 +1,32 @@
+WITH
+     SpeedAnomalies
+AS
+     (SELECT 
+	CameraID, 
+	AVG(Speed) AS AvgSpeed, 
+	SpeedAnomaly(CameraID, AVG(Speed), DATEPART(hour, MAX(Time))) AS Results, 
+	DATEPART(hour, MAX(Time)) AS HourOfDay
+FROM
+     SpeedCameraData
+TIMESTAMP BY
+     Time
+GROUP BY
+     CameraID, TumblingWindow(minute, 2))
+
+SELECT
+     CameraID, AvgSpeed, HourOfDay
+INTO
+     TrafficData
+FROM
+     SpeedAnomalies
+WHERE
+     Results.[Scored Labels] = '1'
+     
+SELECT
+     CameraID, AvgSpeed
+INTO
+     TrafficJamAlerts
+FROM
+     SpeedAnomalies
+WHERE
+     Results.[Scored Labels] = '1'

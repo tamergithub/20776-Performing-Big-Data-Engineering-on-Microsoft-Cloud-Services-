@@ -1,0 +1,63 @@
+SELECT
+    CameraID,VehicleRegistration,Speed,SpeedLimit,LocationLatitude,LocationLongitude,Time
+INTO
+    StoredData
+FROM
+    CameraDataFeed
+	
+     
+SELECT
+     CameraID, AVG(Speed) AS AvgSpeed
+INTO
+     VisualData
+FROM
+     CameraDataFeed2
+TIMESTAMP BY
+     Time
+GROUP BY
+     CameraID, TumblingWindow(second, 30)
+	 
+SELECT
+     C.VehicleRegistration,C.LocationLatitude,C.LocationLongitude,C.Time
+INTO
+     StolenCarAlerts
+FROM
+     StolenVehicleFeed1 C
+JOIN
+     StolenVehicleData V
+ON
+     C.VehicleRegistration = V.Vehicle
+WHERE
+     V.Recovered = ""
+
+SELECT
+     C.VehicleRegistration,C.LocationLatitude,C.LocationLongitude,C.Time
+INTO
+     StolenCarObservations
+FROM
+     StolenVehicleFeed2 C
+JOIN
+     StolenVehicleData V
+ON
+     C.VehicleRegistration = V.Vehicle
+WHERE
+     V.Recovered = ""
+
+SELECT
+     P.CarID,V.Vehicle,C.LocationLatitude,C.LocationLongitude
+INTO
+     StolenVehicleAlerts
+FROM
+     StolenVehicleFeed3 C
+JOIN
+     StolenVehicleData V
+ON
+     C.VehicleRegistration = V.Vehicle
+JOIN
+     PatrolCarLocation P
+ON
+     ST_DISTANCE(CreatePoint(C.LocationLatitude,C.LocationLongitude),CreatePoint(P.LocationLatitude,P.LocationLongitude)) < 8000
+AND
+    DATEDIFF(second,P,C) BETWEEN 0 AND 10
+WHERE
+    V.Recovered = ""

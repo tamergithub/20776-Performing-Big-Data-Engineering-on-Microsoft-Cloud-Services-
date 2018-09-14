@@ -1,0 +1,23 @@
+{
+    "name": "Input SQL Server Dataset",
+    "properties": {
+        "type": "SqlServerTable",
+        "linkedServiceName": "SqlServerLinkedService",
+        "structure": [],
+        "typeProperties": {
+            "tableName": "StockPriceData"
+        },
+        "external": true,			
+        "availability": {
+            "frequency": "Minute",
+            "interval": "30"
+        },	
+        "policy": {
+            "externalData": {
+                "retryInterval": "00:01:00",
+                "retryTimeout": "00:10:00",
+                "maximumRetry": 3
+            }
+        }	
+    }
+}

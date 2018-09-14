@@ -1,0 +1,22 @@
+﻿# Log in to Azure
+Login-AzureRmAccount
+
+$adla = "<name of your ADLA account>"
+$adls = "<name of your Data Lake Store>"
+$rg = "StockMarketRG"
+
+# Verify that the ADLA account exists
+Get-AdlAnalyticsAccount -ResourceGroupName $rg -Name $adla
+
+# Submit an ADLA job
+$scriptpath = "E:\Demofiles\Mod05\Demo1\StockPriceJob.usql"
+$job = Submit-AdlJob -AccountName $adla –ScriptPath $scriptpath -Name "Demo" 
+
+# Repeatedly view the status of the job
+$job = Get-AdlJob -AccountName $adla -JobId $job.JobId
+
+# Wait for the job to complete
+Wait-AdlJob -Account $adla -JobId $job.JobId
+
+# Download the results
+Export-AdlStoreItem -AccountName $adls -Path "/output/MaxPrices.csv" -Destination "E:\Demofiles\Mod05\Demo1\MaxPrices.csv" 

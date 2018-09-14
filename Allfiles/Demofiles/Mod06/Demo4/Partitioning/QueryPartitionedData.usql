@@ -1,0 +1,17 @@
+﻿@salesData = 
+    SELECT State,
+           ProductID,
+           NumSold,
+           PricePerItem
+    FROM SalesData.dbo.Sales;
+
+@nySales =
+    SELECT ProductID,
+           SUM(NumSold * PricePerItem) AS TotalSalesValue
+    FROM @salesData
+    WHERE State == "NY"
+    GROUP BY ProductID;
+
+OUTPUT @nySales
+    TO "/NYSales.csv"
+    USING Outputters.Csv(outputHeader: true, quoting: false);

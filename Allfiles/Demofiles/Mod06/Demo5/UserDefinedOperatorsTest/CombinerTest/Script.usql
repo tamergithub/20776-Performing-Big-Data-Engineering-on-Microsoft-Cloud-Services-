@@ -1,0 +1,33 @@
+﻿REFERENCE ASSEMBLY CustomOperators;
+
+// Retrieve the input data from the TSV files
+@employeeWorkHistoryData = 
+    EXTRACT
+        EmployeeID int, 
+        EmployeeName string, 
+        DepartmentID int,
+        Roles string
+    FROM "/EmployeeWorkHistory.tsv"
+    USING Extractors.Tsv(skipFirstNRows: 1, silent:true);
+
+@departmentDetails = 
+    EXTRACT
+        DepartmentID int,
+        DepartmentName string
+    FROM "/Departments.tsv"
+    USING Extractors.Tsv(skipFirstNRows: 1); 
+
+// Use the custom combiner to join the non-relational employeeHistoryData with departmentDetails 
+@empsRoles =
+    COMBINE @employeeWorkHistoryData AS E WITH @departmentDetails AS D
+    ON E.DepartmentID == D.DepartmentID
+    PRODUCE EmpID int,
+            EmpName string,            
+            DeptName string,
+            Role string
+    USING new CustomOperators.FindDepartmentRoles();
+    
+// Save the results
+OUTPUT @empsRoles
+TO "/EmployeeRoles.csv"
+USING Outputters.Csv(quoting: false, outputHeader: true);

@@ -1,0 +1,23 @@
+﻿REFERENCE ASSEMBLY CustomAggregations;
+
+// Retrieve the data from the StockPriceData.csv file in Data Lake Storage
+@stockData = EXTRACT
+  Ticker string,
+  Price int,
+  QuoteTime DateTime
+FROM "/StockPriceData.csv"
+USING Extractors.Csv(skipFirstNRows: 1);
+
+// Use the SmoothedRateOfPriceChange custom aggregator to find out how static or dynamic each stock is
+@dynamics =
+    SELECT Ticker,
+           AGG<CustomAggregations.SmoothedRateOfPriceChange>(Price, QuoteTime, 'D') AS SmoothedRateOfPriceChangePerDay,
+           AGG<CustomAggregations.SmoothedRateOfPriceChange>(Price, QuoteTime, 'H') AS SmoothedRateOfPriceChangePerHour,
+           AGG<CustomAggregations.SmoothedRateOfPriceChange>(Price, QuoteTime, 'M') AS SmoothedRateOfPriceChangePerMinute
+    FROM @stockData
+    GROUP BY Ticker;
+
+// Save the results
+OUTPUT @dynamics
+TO "/StockPriceDynamics.csv"
+USING Outputters.Csv(quoting: false, outputHeader: true);

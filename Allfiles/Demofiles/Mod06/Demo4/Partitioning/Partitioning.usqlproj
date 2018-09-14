@@ -1,0 +1,41 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>213da503-95be-4d1b-ac89-29479b759221</ProjectGuid>
+    <OutputType>File</OutputType>
+    <AssemblyName>Algebra.xml</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <Name>Partitioning</Name>
+    <RootNamespace>Partitioning</RootNamespace>
+    <RuntimeVersion>default</RuntimeVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Script Include="CreatePartitionedTable.usql" />
+    <Script Include="CreateOrdinaryTable.usql" />
+    <Script Include="QueryNonPartitionedData.usql" />
+    <Script Include="QueryPartitionedData.usql" />
+    <ScriptCode Include="CreatePartitionedTable.usql.cs">
+      <DependentUpon>CreatePartitionedTable.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="CreateOrdinaryTable.usql.cs">
+      <DependentUpon>CreateOrdinaryTable.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="QueryNonPartitionedData.usql.cs">
+      <DependentUpon>QueryNonPartitionedData.usql</DependentUpon>
+    </ScriptCode>
+    <ScriptCode Include="QueryPartitionedData.usql.cs">
+      <DependentUpon>QueryPartitionedData.usql</DependentUpon>
+    </ScriptCode>
+  </ItemGroup>
+  <Import Project="$(AppData)\Microsoft\DataLake\MsBuild\1.0\Usql.targets" />
+</Project>
