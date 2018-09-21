@@ -1,0 +1,1 @@
+https://adls<your name><date>.azuredatalakestore.net/webhdfs/v1

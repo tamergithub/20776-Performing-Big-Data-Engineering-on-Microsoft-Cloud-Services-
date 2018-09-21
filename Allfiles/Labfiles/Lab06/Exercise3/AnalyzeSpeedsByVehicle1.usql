@@ -1,0 +1,27 @@
+// Assembly references for the reducer:
+
+REFERENCE ASSEMBLY CustomReducers;
+
+// Use a CSV extractor to read the stolen vehicle data from the files under the Stolen folder in ADLS file; the fields of interest in the file are VehicleRegistration string, DateStolen string, and DateRecovered string:
+
+@stolenVehicleHistory =
+    EXTRACT VehicleRegistration string,
+            DateStolen string,
+            DateRecovered string // Can be empty
+    FROM "/Stolen/{*}/{*}/{*}/VehicleData.csv"
+    USING Extractors.Csv(skipFirstNRows: 1);
+
+// Call the reducer to reduce the rowset to only those vehicles that are currently marked as stolen; group the data by VehicleRegistration as it is passed to the reducer:
+
+@stolenVehicles =
+    REDUCE @stolenVehicleHistory
+    ON VehicleRegistration
+            PRODUCE VehicleRegistration string,
+            DateStolen DateTime
+    USING new CustomReducers.ReduceByRecoveredVehicles();
+
+// Save the results to StolenVehicleSpeedAnalysis.csv:
+
+OUTPUT @stolenVehicles
+TO "/StolenVehicleSpeedAnalysis.csv"
+USING Outputters.Csv(quoting : false, outputHeader : true);

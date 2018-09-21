@@ -1,0 +1,8 @@
+@vehicleAnalysis =
+    SELECT 
+        CameraID,
+        COUNT(VehicleRegistration) AS NumVehicles
+    FROM 
+        VehicleData.dbo.SpeedCameraData
+    GROUP 
+        BY CameraID;

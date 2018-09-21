@@ -1,0 +1,66 @@
+﻿// Add a reference to the Python extensions for U-SQL
+REFERENCE ASSEMBLY [ExtPython];
+
+// Retrieve the data to analyze. 
+
+// First, the list of stolen vehicles. This requires the custom reducer from exercise 3
+REFERENCE ASSEMBLY CustomReducers;
+
+@stolenVehicleHistory =
+    EXTRACT VehicleRegistration string,
+            DateStolen string,
+            DateRecovered string // Can be empty
+    FROM "/Stolen/{*}/{*}/{*}/VehicleData.csv"
+    USING Extractors.Csv(skipFirstNRows: 1);
+
+@stolenVehicles =
+    REDUCE @stolenVehicleHistory
+    ON VehicleRegistration
+            PRODUCE VehicleRegistration string,
+            DateStolen DateTime
+    USING new CustomReducers.ReduceByRecoveredVehicles();
+
+// Next, get the speed camera data from the catalog
+@speedData =
+    SELECT CameraID,
+           VehicleRegistration,
+           Speed,
+           SpeedLimit
+    FROM VehicleData.dbo.SpeedCameraData;
+
+// Combine the data
+@sourceData =
+    SELECT C.CameraID AS CameraID,
+           C.VehicleRegistration AS VehicleRegistration,
+           C.Speed AS Speed,
+           C.SpeedLimit AS SpeedLimit,
+           V.DateStolen.ToString() AS DateStolen
+    FROM @speedData AS C
+         LEFT JOIN
+             @stolenVehicles AS V
+         ON C.VehicleRegistration == V.VehicleRegistration;
+
+// Define the Python script 
+DECLARE @speedAnalyticsScript = @"
+def usqlml_main(df):
+  import pandas as pd
+
+  df['IsStolen'] = df['DateStolen'].notnull()
+  df['IsSpeeding'] = df['Speed'] > df['SpeedLimit']
+  correlation = df.corr()['IsSpeeding']['IsStolen']
+  cameraID = df.iloc[0,0]
+  outputData = pd.DataFrame({'CameraID': cameraID, 'Correlation': correlation}, index = list('0'), columns=['CameraID', 'Correlation'])
+  return outputData
+";
+                
+// Call the Python script to generate a correlation matrix for each camera
+@pythonScriptOutput = 
+    REDUCE @sourceData 
+    ON CameraID
+    PRODUCE IsSpeeding double, IsStolen double
+    USING new Extension.Python.Reducer(pyScript : @speedAnalyticsScript);
+
+// Save the results
+OUTPUT @pythonScriptOutput
+TO "/CorrelationMatrixData.csv"
+USING Outputters.Csv(quoting : false, outputHeader : true);

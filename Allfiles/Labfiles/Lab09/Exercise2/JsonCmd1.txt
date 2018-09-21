@@ -1,0 +1,4 @@
+            "dataLakeAnalyticsUri": "azuredatalakeanalytics.net",
+            "servicePrincipalId": "<service principal id>",
+            "servicePrincipalKey": "<service principal key>",
+            "tenant": "<tenant id>",

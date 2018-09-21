@@ -1,0 +1,57 @@
+﻿// Add a reference to the R extensions for U-SQL
+REFERENCE ASSEMBLY [ExtR];
+
+// Retrieve the data to analyze. 
+
+// First, the list of stolen vehicles. This requires the custom reducer from exercise 3
+REFERENCE ASSEMBLY CustomReducers;
+
+@stolenVehicleHistory =
+    EXTRACT VehicleRegistration string,
+            DateStolen string,
+            DateRecovered string // Can be empty
+    FROM "/Stolen/{*}/{*}/{*}/VehicleData.csv"
+    USING Extractors.Csv(skipFirstNRows: 1);
+
+@stolenVehicles =
+    REDUCE @stolenVehicleHistory
+    ON VehicleRegistration
+            PRODUCE VehicleRegistration string,
+            DateStolen DateTime
+    USING new CustomReducers.ReduceByRecoveredVehicles();
+
+// Next, get the speed camera data from the catalog
+@speedData =
+    SELECT CameraID,
+           VehicleRegistration,
+           Speed,
+           SpeedLimit
+    FROM VehicleData.dbo.SpeedCameraData;
+
+// Combine the data
+@sourceData =
+    SELECT C.CameraID AS CameraID,
+           C.VehicleRegistration AS VehicleRegistration,
+           C.Speed AS Speed,
+           C.SpeedLimit AS SpeedLimit,
+           V.DateStolen.ToString() AS DateStolen
+    FROM @speedData AS C
+         LEFT JOIN
+             @stolenVehicles AS V
+         ON C.VehicleRegistration == V.VehicleRegistration;
+
+// Deploy the script containing the R code to be run
+DEPLOY RESOURCE @"/SpeedAnalytics.R";
+                
+// Call the R script to generate a correlation matrix for each camera, showing whether there is any correlation between cars speeding and being stolen
+@RScriptOutput = 
+    REDUCE @sourceData 
+    ON CameraID
+    PRODUCE CameraID string, Correlation double
+    USING new Extension.R.Reducer(scriptFile:"SpeedAnalytics.R", rReturnType:"dataframe", stringsAsFactors:false);
+
+// Save the results
+OUTPUT @RScriptOutput
+TO "/CorrelationMatrixData.csv"
+ORDER BY CameraID
+USING Outputters.Csv(quoting : false, outputHeader : true);

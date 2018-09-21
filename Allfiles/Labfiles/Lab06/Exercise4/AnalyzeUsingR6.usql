@@ -1,0 +1,5 @@
+@RScriptOutput = 
+    REDUCE @sourceData 
+    ON CameraID
+    PRODUCE CameraID string, Correlation double
+    USING new Extension.R.Reducer(scriptFile:"SpeedAnalytics.R", rReturnType:"dataframe", stringsAsFactors:false);

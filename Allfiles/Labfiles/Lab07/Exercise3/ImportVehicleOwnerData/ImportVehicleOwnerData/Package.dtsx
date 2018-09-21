@@ -1,0 +1,837 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/6/2017 6:22:45 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-CAGC1MM"
+  DTS:CreatorName="CONTENTM\JohnS"
+  DTS:DTSID="{BA6B2A9E-A878-4AA0-8412-E5F1C018E93A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.0800.60"
+  DTS:LocaleID="2057"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="27"
+  DTS:VersionGUID="{4D33A80A-D17C-445F-892C-8BA321D07381}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{77BE1CAD-B82D-4EA0-9C83-85B8CC3B3DB0}"
+      DTS:ObjectName="Flat File Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="2057"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="D:\Labfiles\Lab07\DownloadedOwnerData.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="7"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="VehicleRegistration"
+              DTS:DTSID="{26584CF6-5F88-4BCF-8F88-2CFFAC4E5681}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="30"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Title"
+              DTS:DTSID="{29ED947D-B8C4-4580-AEF8-FF063FA2A761}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="30"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Forename"
+              DTS:DTSID="{503C79F6-A4FE-4818-8110-CD173475183B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="30"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Surname"
+              DTS:DTSID="{F695877A-BADB-40B2-B53B-7CF6A05FEB3E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AddressLine1"
+              DTS:DTSID="{95EB0A86-BBC9-422F-AA42-B7D21A57357B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AddressLine2"
+              DTS:DTSID="{7263F85A-972D-4430-BEEC-38273EACDD5C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AddressLine3"
+              DTS:DTSID="{3BBBCF43-DEAF-4792-B530-2ED6BA368050}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AddressLine4"
+              DTS:DTSID="{DA882AC8-769B-4BB9-8BA9-7D38AC1D0743}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager 1]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{D6EE997B-41BA-400C-8A59-2894A0837443}"
+      DTS:ObjectName="Flat File Connection Manager 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="2057"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="D:\Test.txt">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="7"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="VehicleRegistration"
+              DTS:DTSID="{2D55441A-6F6D-4DC1-A687-FCEF00C4957B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="30"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Title"
+              DTS:DTSID="{024308A2-19F9-4F38-8367-0B9AD68026CE}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="30"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Forename"
+              DTS:DTSID="{323A9029-2215-4060-AC90-90A82DFC4F7B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="30"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Surname"
+              DTS:DTSID="{1FDD2063-A874-45F8-938D-D6AF26276C03}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AddressLine1"
+              DTS:DTSID="{4B2A6913-44A2-4EA3-A473-C8CA84BFEEEA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AddressLine2"
+              DTS:DTSID="{F1EDFD32-E990-408F-9482-8F5886A252EC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AddressLine3"
+              DTS:DTSID="{C05E3E20-147B-496F-8113-FF05A618DCD8}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AddressLine4"
+              DTS:DTSID="{0D9DCF72-11EC-4C16-86BB-7E262C5BD595}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ErrorCode"
+              DTS:DTSID="{D4317139-C24E-4DEC-A693-6A279556C1B7}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ErrorColumn"
+              DTS:DTSID="{A0486EDE-522A-42B3-9188-210FD1877074}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[jstrafficserver.database.windows.net.jstrafficwarehouse.student]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{91EA819A-C1F3-4786-9B86-2C0C670FB743}"
+      DTS:ObjectName="jstrafficserver.database.windows.net.jstrafficwarehouse.student">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=jstrafficserver.database.windows.net;User ID=student;Initial Catalog=jstrafficwarehouse;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAg1rmhEmk80q/T2d6IKI2TwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA1URvfHy2QBpZrHEwsYF5ymnlB9r5R7BN9JwoCvUwmLAAAAAAOgAAAAAIAACAAAAByDf1V7nMKqxd9rR9KUfWFBp1ZCJA38IsDsjukLyCgSiAAAACrCGmYMtzyYxzfha56Stt+mBY3b+MuKQTdnyXUXMmRq0AAAABt8YsILjfLjGFrCbFyIxcQldhsbupUu0ttPIjcZqdToU+3L8LjSwI1inbPkwta1R1Odbfo0VhJ0r/gDPTAnAs5</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[jstrafficserver.database.windows.net.jstrafficwarehouse.student 1]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{A1F222D3-B572-49E0-9762-07BADF91CDDE}"
+      DTS:ObjectName="jstrafficserver.database.windows.net.jstrafficwarehouse.student 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=jstrafficserver.database.windows.net;User ID=student;Initial Catalog=jstrafficwarehouse;Persist Security Info=True;Application Name=SSIS-Package-{A1F222D3-B572-49E0-9762-07BADF91CDDE}jstrafficserver.database.windows.net.jstrafficwarehouse.student 1;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAg1rmhEmk80q/T2d6IKI2TwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACbqFSc9Z+xKRHCiMeO5jVZzujIQfyNenSjFK4TdFdEPQAAAAAOgAAAAAIAACAAAAADu8sbQHDESMIOyFSGfIz1x2bHGZnrVJHHPzDMoUdLhyAAAAD/Ml9LBaqYeFldvZnLtRlnWMsJ+05muH52SjZsgWRmxUAAAABpuhn3gLiaXbXY/kTqYk945/txerg/c5Uh0krr+Fjhck9vxKeejInqNYUhV8Ws34NB3mMn7j1FR0qDuSrGPExV</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[jsvehicledata]"
+      DTS:CreationName="AzureStorage"
+      DTS:DTSID="{2447FFD4-00FB-4921-97E7-8BA3C4B6BE1D}"
+      DTS:ObjectName="jsvehicledata">
+      <DTS:ObjectData>
+        <AzureStorageConnectionManager
+          ConnectionString="DefaultEndpointsProtocol=https;AccountName=jsvehicledata;EndpointSuffix=core.windows.net">
+          <AccountKey
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAg1rmhEmk80q/T2d6IKI2TwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAB7qJSPC8S+V2w2BOhIgfbj8/Q6fqo97XsmB2mtFjfvYAAAAAAOgAAAAAIAACAAAAAxP7HycdxjWJ7Fbnnj4L4B+Cm11SH4iMicE3faOEWGhcAAAACLAt/I9QMlb6OJZHUmh9px/IwQNiNtLDdFDBsPTSYI2TdXBflcMfMiCO03rSSKYQhMQIN+CsQ35ycxtThUoxdCDk89Y0uN5pPuccV41VYpigd3Rdzj+0QVU0myQvX0QgsNcF+XZQkSR4OalYvrOUeHr0itMZ0xq1U0lYqwpPW5cDBfk+SRirdT9/6CrQ4gxppOBqrYqnibbS4CR/ocAScubp4rFOq0fNNnYdOCR4mAj/M54qHpJLekIxzsAQ/k4RBAAAAAVG3B0T1yY91jEHEK7lBywnACZm1WHQ4BX/iNSJyHsJuXaYNWDAQ8NycgcWCDf1yvOaXeXQPGxJFiJGmSYbLFuw</AccountKey>
+        </AzureStorageConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[localhost.VehicleInfo]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{57236657-6704-495D-ABD1-32DFBC250605}"
+      DTS:ObjectName="localhost.VehicleInfo">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=localhost;Initial Catalog=VehicleInfo;Integrated Security=True;Application Name=SSIS-Package-{57236657-6704-495D-ABD1-32DFBC250605}localhost.VehicleInfo;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SSIS Connection Manager for Azure Storage]"
+      DTS:CreationName="AzureStorage"
+      DTS:DTSID="{ABA22993-A8D2-4C70-AF9E-5B9B0C7AFA76}"
+      DTS:ObjectName="SSIS Connection Manager for Azure Storage">
+      <DTS:ObjectData>
+        <AzureStorageConnectionManager
+          ConnectionString="UseDevelopmentStorage=true" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Azure SQL DW Upload Task"
+      DTS:CreationName="Microsoft.SqlServer.IntegrationService.DwTasks.CopyToDwTask, Microsoft.SqlServer.IntegrationService.Cloud.DwTasks, Version=14.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      DTS:Description="Azure SQL DW Upload Task"
+      DTS:DTSID="{955CAC2B-011E-40B0-A892-161EDCF29482}"
+      DTS:ExecutableType="Microsoft.SqlServer.IntegrationService.DwTasks.CopyToDwTask, Microsoft.SqlServer.IntegrationService.Cloud.DwTasks, Version=14.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Azure SQL DW Upload Task"
+      DTS:TaskContact="Azure SQL DW Upload Task; (C) Microsoft Corporation; All Rights Reserved"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <CopyToDwTask
+          LocalDirectory="D:\Labfiles\Lab07"
+          Recursively="False"
+          FileName="DownloadedOwnerData.csv"
+          RowDelimiterType="CRLF"
+          ColumnDelimiter=","
+          IsFirstRowHeader="True"
+          BlobContainer="vehicleowner"
+          RetainFiles="False"
+          CompressionType="None"
+          CompressionLevel="Optimal"
+          BlobConnectionId="{2447FFD4-00FB-4921-97E7-8BA3C4B6BE1D}"
+          DwConnectionId="{A1F222D3-B572-49E0-9762-07BADF91CDDE}"
+          TableName="&quot;dbo&quot;.&quot;VehicleOwner&quot;"
+          TableDistribution="ROUND_ROBIN"
+          OperationType="Insert"
+          SourceColumnNames="VehicleRegistration&#xA;Title&#xA;Forename&#xA;Surname&#xA;AddressLine1&#xA;AddressLine2&#xA;AddressLine3&#xA;AddressLine4&#xA;"
+          SourceColumnTypes="VarChar&#xA;VarChar&#xA;VarChar&#xA;VarChar&#xA;VarChar&#xA;VarChar&#xA;VarChar&#xA;VarChar&#xA;"
+          SourceColumnWidths="7&#xA;30&#xA;30&#xA;30&#xA;50&#xA;50&#xA;50&#xA;50&#xA;"
+          SourceColumnPrecisions="0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;"
+          SourceColumnScales="0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;"
+          DestinationColumnNames="VehicleRegistration&#xA;Title&#xA;Forename&#xA;Surname&#xA;AddressLine1&#xA;AddressLine2&#xA;AddressLine3&#xA;AddressLine4&#xA;"
+          DestinationColumnTypes="VarChar&#xA;VarChar&#xA;VarChar&#xA;VarChar&#xA;VarChar&#xA;VarChar&#xA;VarChar&#xA;VarChar&#xA;"
+          DestinationColumnWidths="7&#xA;30&#xA;30&#xA;30&#xA;50&#xA;50&#xA;50&#xA;50&#xA;"
+          DestinationColumnPrecisions="0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;"
+          DestinationColumnScales="0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;0&#xA;"
+          MappedDestinationColumnIndex="0&#xA;1&#xA;2&#xA;3&#xA;4&#xA;5&#xA;6&#xA;7&#xA;"
+          SQL="CREATE DATABASE SCOPED CREDENTIAL &quot;&lt;credential_name&gt;&quot;&#xA;WITH IDENTITY = '&lt;blob_account_name&gt;',&#xA;SECRET = '&lt;blob_account_key&gt;';&#xA;CREATE EXTERNAL DATA SOURCE &quot;&lt;external_data_source_name&gt;&quot;&#xA;WITH (&#xA;    TYPE = HADOOP,&#xA;    LOCATION = 'wasbs://&lt;blob_container&gt;@&lt;blob_account_name&gt;.blob.&lt;blob_endpoint_suffix&gt;',&#xA;    CREDENTIAL = &quot;&lt;credential_name&gt;&quot;&#xA;);&#xA;CREATE EXTERNAL FILE FORMAT &quot;&lt;external_file_format_name&gt;&quot;&#xA;WITH (&#xA;    FORMAT_TYPE = DELIMITEDTEXT,&#xA;    FORMAT_OPTIONS (&#xA;        FIELD_TERMINATOR = '&lt;column_delimiter&gt;'&#xA;    )&#xA;);&#xA;CREATE EXTERNAL TABLE &quot;&lt;external_table_name&gt;&quot; (&#xA;    &quot;VehicleRegistration&quot; varchar(7),&#xA;    &quot;Title&quot; varchar(30),&#xA;    &quot;Forename&quot; varchar(30),&#xA;    &quot;Surname&quot; varchar(30),&#xA;    &quot;AddressLine1&quot; varchar(50),&#xA;    &quot;AddressLine2&quot; varchar(50),&#xA;    &quot;AddressLine3&quot; varchar(50),&#xA;    &quot;AddressLine4&quot; varchar(50)&#xA;) WITH (&#xA;    LOCATION = '&lt;blob_directory&gt;',&#xA;    DATA_SOURCE = &quot;&lt;external_data_source_name&gt;&quot;,&#xA;    FILE_FORMAT = &quot;&lt;external_file_format_name&gt;&quot;&#xA;);&#xA;INSERT INTO &quot;dbo&quot;.&quot;VehicleOwner&quot; (&#xA;    &quot;VehicleRegistration&quot;,&#xA;    &quot;Title&quot;,&#xA;    &quot;Forename&quot;,&#xA;    &quot;Surname&quot;,&#xA;    &quot;AddressLine1&quot;,&#xA;    &quot;AddressLine2&quot;,&#xA;    &quot;AddressLine3&quot;,&#xA;    &quot;AddressLine4&quot;&#xA;)&#xA;SELECT&#xA;    &quot;VehicleRegistration&quot;,&#xA;    &quot;Title&quot;,&#xA;    &quot;Forename&quot;,&#xA;    &quot;Surname&quot;,&#xA;    &quot;AddressLine1&quot;,&#xA;    &quot;AddressLine2&quot;,&#xA;    &quot;AddressLine3&quot;,&#xA;    &quot;AddressLine4&quot;&#xA;FROM &quot;&lt;external_table_name&gt;&quot;;&#xA;DROP EXTERNAL TABLE &quot;&lt;external_table_name&gt;&quot;;&#xA;DROP EXTERNAL FILE FORMAT &quot;&lt;external_file_format_name&gt;&quot;;&#xA;DROP EXTERNAL DATA SOURCE &quot;&lt;external_data_source_name&gt;&quot;;&#xA;DROP DATABASE SCOPED CREDENTIAL &quot;&lt;credential_name&gt;&quot;;"
+          SQLTimeout="0"
+          UnlockSQL="False" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{4F86002F-E805-45AB-A98F-6FFF757DBE5C}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\ADO NET Source"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server."
+              name="ADO NET Source"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement used by the component to extract data."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether to allow non-string external columns to be implicitly converted to strings at the output columns."
+                  name="AllowImplicitStringConversion">true</property>
+                <property
+                  dataType="System.String"
+                  description="The Source database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">"dbo"."VehicleOwner"</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the mode to retrieve external column information"
+                  name="AccessMode"
+                  typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">0</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\ADO NET Source.Connections[IDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.VehicleInfo]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.VehicleInfo]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output]"
+                  name="ADO NET Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[VehicleRegistration]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[VehicleRegistration]"
+                      length="7"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[VehicleRegistration]"
+                      name="VehicleRegistration"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[Title]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[Title]"
+                      length="30"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[Title]"
+                      name="Title"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[Forename]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[Forename]"
+                      length="30"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[Forename]"
+                      name="Forename"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[Surname]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[Surname]"
+                      length="30"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[Surname]"
+                      name="Surname"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[AddressLine1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[AddressLine1]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[AddressLine1]"
+                      name="AddressLine1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[AddressLine2]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[AddressLine2]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[AddressLine2]"
+                      name="AddressLine2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[AddressLine3]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[AddressLine3]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[AddressLine3]"
+                      name="AddressLine3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[AddressLine4]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[AddressLine4]"
+                      length="50"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[AddressLine4]"
+                      name="AddressLine4"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[VehicleRegistration]"
+                      dataType="wstr"
+                      length="7"
+                      name="VehicleRegistration" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[Title]"
+                      dataType="wstr"
+                      length="30"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[Forename]"
+                      dataType="wstr"
+                      length="30"
+                      name="Forename" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[Surname]"
+                      dataType="wstr"
+                      length="30"
+                      name="Surname" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[AddressLine1]"
+                      dataType="wstr"
+                      length="50"
+                      name="AddressLine1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[AddressLine2]"
+                      dataType="wstr"
+                      length="50"
+                      name="AddressLine2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[AddressLine3]"
+                      dataType="wstr"
+                      length="50"
+                      name="AddressLine3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[AddressLine4]"
+                      dataType="wstr"
+                      length="50"
+                      name="AddressLine4" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output]"
+                  isErrorOut="true"
+                  name="ADO NET Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[VehicleRegistration]"
+                      dataType="wstr"
+                      length="7"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[VehicleRegistration]"
+                      name="VehicleRegistration" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[Title]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[Title]"
+                      name="Title" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[Forename]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[Forename]"
+                      name="Forename" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[Surname]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[Surname]"
+                      name="Surname" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[AddressLine1]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[AddressLine1]"
+                      name="AddressLine1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[AddressLine2]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[AddressLine2]"
+                      name="AddressLine2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[AddressLine3]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[AddressLine3]"
+                      name="AddressLine3" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[AddressLine4]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[AddressLine4]"
+                      name="AddressLine4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Flat File Destination"
+              componentClassID="Microsoft.FlatFileDestination"
+              contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Flat File Destination"
+              localeId="2057"
+              name="Flat File Destination">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether the data will overwrite or append to the destination file."
+                  name="Overwrite">true</property>
+                <property
+                  dataType="System.Null"
+                  description="Specifies the text to write to the destination file before any data is written."
+                  expressionType="Notify"
+                  name="Header" />
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\Flat File Destination.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Flat File Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Flat File Connection Manager]"
+                  name="FlatFileConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input]"
+                  hasSideEffects="true"
+                  name="Flat File Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].Columns[VehicleRegistration]"
+                      cachedDataType="wstr"
+                      cachedLength="7"
+                      cachedName="VehicleRegistration"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[VehicleRegistration]"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[VehicleRegistration]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].Columns[Title]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Title"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Title]"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[Title]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].Columns[Forename]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Forename"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Forename]"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[Forename]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].Columns[Surname]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Surname"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Surname]"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[Surname]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].Columns[AddressLine1]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="AddressLine1"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[AddressLine1]"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[AddressLine1]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].Columns[AddressLine2]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="AddressLine2"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[AddressLine2]"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[AddressLine2]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].Columns[AddressLine3]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="AddressLine3"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[AddressLine3]"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[AddressLine3]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].Columns[AddressLine4]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="AddressLine4"
+                      externalMetadataColumnId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[AddressLine4]"
+                      lineageId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output].Columns[AddressLine4]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[VehicleRegistration]"
+                      dataType="wstr"
+                      length="7"
+                      name="VehicleRegistration" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Title]"
+                      dataType="wstr"
+                      length="30"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Forename]"
+                      dataType="wstr"
+                      length="30"
+                      name="Forename" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[Surname]"
+                      dataType="wstr"
+                      length="30"
+                      name="Surname" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[AddressLine1]"
+                      dataType="wstr"
+                      length="50"
+                      name="AddressLine1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[AddressLine2]"
+                      dataType="wstr"
+                      length="50"
+                      name="AddressLine2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[AddressLine3]"
+                      dataType="wstr"
+                      length="50"
+                      name="AddressLine3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input].ExternalColumns[AddressLine4]"
+                      dataType="wstr"
+                      length="50"
+                      name="AddressLine4" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[ADO NET Source Output]"
+              endId="Package\Data Flow Task\Flat File Destination.Inputs[Flat File Destination Input]"
+              name="ADO NET Source Output"
+              startId="Package\Data Flow Task\ADO NET Source.Outputs[ADO NET Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{47E6C005-C9AB-40C1-AFDA-EA87253A63AB}"
+      DTS:From="Package\Data Flow Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Azure SQL DW Upload Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Azure SQL DW Upload Task"
+          TopLeft="146,292" />
+        <NodeLayout
+          Size="151,42"
+          Id="Package\Data Flow Task"
+          TopLeft="180,119" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="253,161">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,131"
+              Start="0,0"
+              End="0,123.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,123.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Data Flow Task\Flat File Destination"
+          TopLeft="176,276" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Data Flow Task\ADO NET Source"
+          TopLeft="177,132" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[ADO NET Source Output]"
+          TopLeft="259,174">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,102"
+              Start="0,0"
+              End="0,94.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,94.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\ADO NET Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

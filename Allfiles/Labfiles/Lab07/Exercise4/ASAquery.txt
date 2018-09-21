@@ -1,0 +1,6 @@
+SELECT
+     CameraID, SpeedLimit, Speed, VehicleRegistration, Time AS WhenDate, DATEPART(month, Time) AS WhenMonth
+INTO
+     DataWarehouse
+FROM
+     CameraDataFeed4

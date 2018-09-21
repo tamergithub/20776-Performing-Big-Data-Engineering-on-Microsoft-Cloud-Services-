@@ -1,0 +1,8 @@
+@speedData =
+    SELECT 
+        CameraID,
+        VehicleRegistration,
+        Speed,
+        SpeedLimit
+    FROM 
+        VehicleData.dbo.SpeedCameraData;

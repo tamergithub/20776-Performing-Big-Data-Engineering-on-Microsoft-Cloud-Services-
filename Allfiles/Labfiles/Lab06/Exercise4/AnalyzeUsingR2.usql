@@ -1,0 +1,13 @@
+@stolenVehicleHistory =
+    EXTRACT VehicleRegistration string,
+            DateStolen string,
+            DateRecovered string // Can be empty
+    FROM "/Stolen/{*}/{*}/{*}/VehicleData.csv"
+    USING Extractors.Csv(skipFirstNRows: 1);
+
+@stolenVehicles =
+    REDUCE @stolenVehicleHistory
+    ON VehicleRegistration
+    PRODUCE VehicleRegistration string,
+            DateStolen DateTime
+    USING new CustomReducers.ReduceByRecoveredVehicles();

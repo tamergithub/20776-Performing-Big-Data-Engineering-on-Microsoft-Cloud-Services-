@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <StartFile>AnalyzeSpeedsByCamera.usql</StartFile>
+    <OutputStreamPath>C:\Users\JohnS\AppData\Local\USQLDataRoot</OutputStreamPath>
+    <ActiveFile>CreateTable.usql</ActiveFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <ScriptUserData Include="AnalyzeSpeedsByCamera.usql">
+      <UseLocalComputeAccount>false</UseLocalComputeAccount>
+      <LocalComputeAccount>LocalCA:localcomputeaccount</LocalComputeAccount>
+      <LocalDatabase>master</LocalDatabase>
+      <LocalSchema>dbo</LocalSchema>
+      <ClusterComputeAccount>DataLakeCA:jsadla (visualstudio@cm-group.co.uk)</ClusterComputeAccount>
+      <ClusterDatabase>master</ClusterDatabase>
+      <ClusterSchema>dbo</ClusterSchema>
+      <Parallelism>5</Parallelism>
+    </ScriptUserData>
+    <ScriptUserData Include="CreateTable.usql">
+      <UseLocalComputeAccount>false</UseLocalComputeAccount>
+      <ClusterComputeAccount>DataLakeCA:jsadla (visualstudio@cm-group.co.uk)</ClusterComputeAccount>
+      <ClusterDatabase>master</ClusterDatabase>
+      <ClusterSchema>dbo</ClusterSchema>
+      <Parallelism>5</Parallelism>
+      <LocalComputeAccount>LocalCA:localcomputeaccount</LocalComputeAccount>
+      <LocalDatabase>master</LocalDatabase>
+      <LocalSchema>dbo</LocalSchema>
+    </ScriptUserData>
+  </ItemGroup>
+</Project>

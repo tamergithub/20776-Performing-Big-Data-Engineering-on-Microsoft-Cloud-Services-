@@ -1,4 +1,9 @@
-﻿// Retrieve the data from the StockPriceData.csv file in Data Lake Storage
+﻿// Create a SQL Database to hold the assembly
+DROP DATABASE IF EXISTS StockPrices;
+CREATE DATABASE IF NOT EXISTS StockPrices;
+USE StockPrices;
+
+// Retrieve the data from the StockPriceData.csv file in Data Lake Storage
 @stockData = EXTRACT
   Ticker string,
   Price int,

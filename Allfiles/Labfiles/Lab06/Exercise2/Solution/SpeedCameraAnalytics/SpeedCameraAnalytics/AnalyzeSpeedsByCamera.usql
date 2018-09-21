@@ -1,0 +1,18 @@
+﻿// Find the stats for a given camera
+DECLARE @camera = "Camera 121";
+
+@speedSummary =
+    SELECT CameraID,
+           MAX(SpeedLimit) AS SpeedLimit,
+           COUNT(*) AS NumberOfObservations,
+           MIN(Speed) AS Lowest,
+           MAX(Speed) AS Highest,
+           AVG(Speed) AS Average
+    FROM VehicleData.dbo.SpeedCameraData
+    WHERE CameraID ==  @camera
+    GROUP BY CameraID;
+    
+// Save the results
+OUTPUT @speedSummary
+TO "/SpeedSummary.csv"
+USING Outputters.Csv(outputHeader: true, quoting: false);

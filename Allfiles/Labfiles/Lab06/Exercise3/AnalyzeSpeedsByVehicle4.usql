@@ -1,0 +1,11 @@
+@speedCameraAnalysis =
+    SELECT C.CameraID,
+           C.NumVehicles,
+           V.NumStolenVehicles,
+           ((double)V.NumStolenVehicles / C.NumVehicles) * 100 AS PercentStolen
+    FROM 
+           @vehicleAnalysis AS C
+    JOIN
+           @stolenVehicleAnalysis AS V
+    ON 
+           C.CameraID == V.CameraID;  

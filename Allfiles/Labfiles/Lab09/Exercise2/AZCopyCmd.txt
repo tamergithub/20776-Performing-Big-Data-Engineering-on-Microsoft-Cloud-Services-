@@ -1,0 +1,3 @@
+azcopy /Source:"E:\Labfiles\Lab09\Exercise2" /Pattern:"CameraData.csv" /Dest:https://<storage account name>.blob.core.windows.net/cameratestdata /DestKey:<access key> /S
+
+azcopy /Source:"E:\Labfiles\Lab09\Exercise2" /Pattern:"CameraDataProcessing.txt" /Dest:https://<storage account name>.blob.core.windows.net/scripts /DestKey:<access key> /S

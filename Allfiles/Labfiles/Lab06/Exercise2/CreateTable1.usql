@@ -1,0 +1,30 @@
+// Create a new database called VehicleData (if it doesn't already exist):
+
+CREATE DATABASE IF NOT EXISTS VehicleData;
+
+// Create a table for holding speed camera information; index the data by camera id, and hash the data by the vehicle registration:
+
+DROP TABLE IF EXISTS VehicleData.dbo.SpeedCameraData;
+CREATE TABLE VehicleData.dbo.SpeedCameraData(
+    CameraID string,
+    VehicleRegistration string,
+    Speed int,
+    SpeedLimit int,
+    Date DateTime,
+    INDEX cameraidx
+    CLUSTERED(CameraID ASC)
+    DISTRIBUTED BY
+    HASH(VehicleRegistration)
+);
+
+// Reference the assemblies required by the JSON extractor:
+
+REFERENCE ASSEMBLY [Newtonsoft.Json];
+REFERENCE ASSEMBLY [CustomExtractors];
+
+// Read the data from the SpeedData.json file:
+
+@speedData =
+    EXTRACT CameraID string, SpeedLimit int, Speed int, VehicleRegistration string, Date string
+    FROM "/SpeedData.json"
+    USING new CustomExtractors.JsonExtractor();

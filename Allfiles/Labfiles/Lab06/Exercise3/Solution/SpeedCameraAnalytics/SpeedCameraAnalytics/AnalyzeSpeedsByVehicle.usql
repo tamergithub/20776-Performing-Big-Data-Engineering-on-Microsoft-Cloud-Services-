@@ -1,0 +1,53 @@
+﻿// Find the proportion of vehicles passing each speed camera that are stolen - looking for "criminal" hotspots
+
+REFERENCE ASSEMBLY CustomReducers;
+
+// Retrieve the stolen vehicle history records from the CSV files
+@stolenVehicleHistory =
+    EXTRACT VehicleRegistration string,
+            DateStolen string,
+            DateRecovered string // Can be empty
+    FROM "/Stolen/{*}/{*}/{*}/VehicleData.csv"
+    USING Extractors.Csv(skipFirstNRows: 1);
+
+// Reduce the rowset to eliminate vehicles that have been recovered
+@stolenVehicles =
+    REDUCE @stolenVehicleHistory
+    ON VehicleRegistration
+            PRODUCE VehicleRegistration string,
+            DateStolen DateTime
+    USING new CustomReducers.ReduceByRecoveredVehicles();
+
+// Count the number of stolen vehicles passing each speed camera
+@stolenVehicleAnalysis =
+    SELECT C.CameraID,
+           COUNT(C.VehicleRegistration) AS NumStolenVehicles
+    FROM VehicleData.dbo.SpeedCameraData AS C
+         JOIN
+             @stolenVehicles AS V
+         ON C.VehicleRegistration == V.VehicleRegistration
+    GROUP BY C.CameraID;
+
+// Now find the total number of cars passing each speed camera
+@vehicleAnalysis =
+    SELECT CameraID,
+           COUNT(VehicleRegistration) AS NumVehicles
+    FROM VehicleData.dbo.SpeedCameraData
+    GROUP BY CameraID;
+
+// Combine the results to produce the final analysis 
+@speedCameraAnalysis =
+    SELECT C.CameraID,
+           C.NumVehicles,
+           V.NumStolenVehicles,
+           ((double)V.NumStolenVehicles / C.NumVehicles) * 100 AS PercentStolen
+    FROM @vehicleAnalysis AS C
+         JOIN
+             @stolenVehicleAnalysis AS V
+         ON C.CameraID == V.CameraID;                                          
+           
+// Save the results
+OUTPUT @speedCameraAnalysis
+TO "/StolenVehicleSpeedAnalysis.csv"
+ORDER BY PercentStolen DESC
+USING Outputters.Csv(quoting : false, outputHeader : true);

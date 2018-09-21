@@ -8,7 +8,7 @@
 FROM "/StockPriceData.csv"
 USING Extractors.Csv(skipFirstNRows: 1);
 
-// Use the custom applier to add the opening price and percentage price change to the dat
+// Use the custom applier to add the opening price and percentage price change to the data
 @result =
      SELECT S.Ticker, S.Price, S.QuoteTime, OpeningPrice, PercentChange
      FROM @stockData AS S

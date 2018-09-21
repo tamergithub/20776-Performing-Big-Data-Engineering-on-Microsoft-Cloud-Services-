@@ -61,10 +61,10 @@ namespace StockMarketSimulation
 
         private int getPrice()
         {
-            this.price = this.previousPrice + rnd.Next(10) - 5;
+            this.price = this.previousPrice + rnd.Next(10) - 4;
             if (this.price <= 0)
             {
-                this.price = 0;
+                this.price = this.price + 5;
             }
             this.previousPrice = this.price;
 

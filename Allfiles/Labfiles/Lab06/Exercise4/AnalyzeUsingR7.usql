@@ -1,0 +1,4 @@
+OUTPUT @RScriptOutput
+TO "/CorrelationMatrixData.csv"
+ORDER BY CameraID
+USING Outputters.Csv(quoting : false, outputHeader : true);

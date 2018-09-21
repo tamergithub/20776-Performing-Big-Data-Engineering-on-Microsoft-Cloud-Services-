@@ -1,0 +1,13 @@
+@sourceData =
+    SELECT 
+        C.CameraID AS CameraID,
+        C.VehicleRegistration AS VehicleRegistration,
+        C.Speed AS Speed,
+        C.SpeedLimit AS SpeedLimit,
+        V.DateStolen.ToString() AS DateStolen
+    FROM 
+        @speedData AS C
+    LEFT JOIN
+        @stolenVehicles AS V
+    ON 
+        C.VehicleRegistration == V.VehicleRegistration;
