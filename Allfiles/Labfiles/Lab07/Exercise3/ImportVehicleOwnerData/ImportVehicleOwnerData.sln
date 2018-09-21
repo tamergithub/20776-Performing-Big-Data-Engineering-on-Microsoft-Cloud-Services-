@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "ImportVehicleOwnerData", "ImportVehicleOwnerData\ImportVehicleOwnerData.dtproj", "{211C4A12-B04B-4D09-AF40-258932351BDC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{211C4A12-B04B-4D09-AF40-258932351BDC}.Development|Default.ActiveCfg = Development
+		{211C4A12-B04B-4D09-AF40-258932351BDC}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6DC2389F-C173-4C95-8889-2F265706AC2B}
+	EndGlobalSection
+EndGlobal

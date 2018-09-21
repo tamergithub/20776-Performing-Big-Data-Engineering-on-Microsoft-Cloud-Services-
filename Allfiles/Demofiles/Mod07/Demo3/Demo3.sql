@@ -5,7 +5,7 @@ GO
 -- Create a database scoped credential for accessing the storage account
 CREATE DATABASE SCOPED CREDENTIAL CredentialsToBlobStorage
 WITH IDENTITY = '<storage account name>',
-Secret = '<storage key>'
+SECRET = '<storage key>'
 GO
 
 -- Create an external data source that references the blob storage account

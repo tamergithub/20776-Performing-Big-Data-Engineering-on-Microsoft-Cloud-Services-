@@ -1,0 +1,35 @@
+﻿// Create the VehicleData catalog
+CREATE DATABASE IF NOT EXISTS VehicleData;
+
+// Drop and reconstruct the SpeedCameraData table
+DROP TABLE IF EXISTS VehicleData.dbo.SpeedCameraData;
+CREATE TABLE VehicleData.dbo.SpeedCameraData
+(
+    CameraID string,
+    VehicleRegistration string,
+    SpeedLimit int,
+    Speed int,
+    Date DateTime,
+    INDEX cameraidx
+    CLUSTERED(CameraID ASC)
+    DISTRIBUTED BY
+//    HASH(VehicleRegistration)
+    HASH(CameraID)
+);
+    
+// Populate the table with data from the JSON file
+
+// Reference the assemblies required by the JSON extractor
+REFERENCE ASSEMBLY [Newtonsoft.Json];
+REFERENCE ASSEMBLY [CustomExtractors];
+
+// Read the JSON data
+@speedData =
+    EXTRACT CameraID string, SpeedLimit int, Speed int, VehicleRegistration string, Date string
+    FROM "/SpeedData.json"
+    USING new CustomExtractors.JsonExtractor();
+
+// Store the data in the SpeedCameraData table (convert the Date field from a string into a DateTime value)
+INSERT INTO VehicleData.dbo.SpeedCameraData (CameraID, VehicleRegistration, Speed, SpeedLimit, Date)
+SELECT CameraID, VehicleRegistration, Speed, SpeedLimit, SpeedCameraAnalytics.UDFs.ConvertStringToDate(Date) AS Date
+FROM @speedData;

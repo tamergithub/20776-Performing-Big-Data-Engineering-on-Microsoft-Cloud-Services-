@@ -1,0 +1,62 @@
+CREATE TABLE VehicleSpeed
+(
+  CameraID VARCHAR(10) NOT NULL,
+  SpeedLimit INT NOT NULL,
+  Speed INT NOT NULL,
+  VehicleRegistration VARCHAR(7) NOT NULL,
+  WhenDate DATETIME NOT NULL,
+  WhenMonth INT NOT NULL
+)
+WITH
+(
+  HEAP,
+  DISTRIBUTION = HASH(CameraID),
+  PARTITION (WhenMonth RANGE FOR VALUES(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
+)
+GO
+
+CREATE TABLE CameraLocation
+(
+  CameraID VARCHAR(10) NOT NULL,
+  GPSLocationX FLOAT NOT NULL,
+  GPSLocationY FLOAT NOT NULL
+)
+WITH
+(
+  HEAP,
+  DISTRIBUTION = REPLICATE
+)
+GO
+
+CREATE TABLE VehicleOwner
+(
+  VehicleRegistration VARCHAR(7) NOT NULL,
+  Title VARCHAR(30) NOT NULL,
+  Forename VARCHAR(30) NOT NULL,
+  Surname VARCHAR(30) NOT NULL,
+  AddressLine1 VARCHAR(50) NOT NULL,
+  AddressLine2 VARCHAR(50) NOT NULL,
+  AddressLine3 VARCHAR(50) NOT NULL,
+  AddressLine4 VARCHAR(50) NOT NULL
+)
+WITH
+(
+  CLUSTERED COLUMNSTORE INDEX,
+  DISTRIBUTION = ROUND_ROBIN
+)
+GO
+
+CREATE TABLE StolenVehicle
+(
+  VehicleRegistration VARCHAR(7) NOT NULL,
+  DateStolen DATETIME NOT NULL,
+  DateRecovered DATETIME NULL,
+  YearStolen INT NOT NULL
+)
+WITH
+(
+  CLUSTERED COLUMNSTORE INDEX,
+  DISTRIBUTION = HASH(VehicleRegistration),
+  PARTITION (YearStolen RANGE FOR VALUES(2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017))
+)
+GO

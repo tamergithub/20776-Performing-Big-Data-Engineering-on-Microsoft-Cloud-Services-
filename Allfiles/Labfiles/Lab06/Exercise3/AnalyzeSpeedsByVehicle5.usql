@@ -1,0 +1,4 @@
+OUTPUT @speedCameraAnalysis
+TO "/StolenVehicleSpeedAnalysis.csv"
+ORDER BY PercentStolen DESC
+USING Outputters.Csv(quoting : false, outputHeader : true);

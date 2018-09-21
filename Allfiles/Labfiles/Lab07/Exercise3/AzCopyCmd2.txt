@@ -1,0 +1,1 @@
+azcopy /Source:"E:\Labfiles\Lab07\Exercise3\" /Pattern:CameraData.csv /Dest:https://<storage account name>.blob.core.windows.net/locationdata /DestKey:<storage key>

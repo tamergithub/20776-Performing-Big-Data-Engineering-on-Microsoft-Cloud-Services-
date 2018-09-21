@@ -1,0 +1,5 @@
+// Insert data into the SpeedCameraData table
+
+INSERT INTO VehicleData.dbo.SpeedCameraData (CameraID, VehicleRegistration, Speed, SpeedLimit, Date)
+SELECT CameraID, VehicleRegistration, Speed, SpeedLimit, SpeedCameraAnalytics2.UDFs.ConvertStringToDate(Date) AS Date
+FROM @speedData;

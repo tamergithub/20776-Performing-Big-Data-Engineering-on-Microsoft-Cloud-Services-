@@ -1,0 +1,29 @@
+// Find the statistics for a specific camera
+
+@datasource =
+
+    EXTRACT CameraID	        string,
+			SpeedLimit			int,
+			RecordedSpeed		int,
+            VehicleRegistration	string,
+			DetectionDateTime  	DateTime
+    FROM @in
+    USING Extractors.Csv(skipFirstNRows:1,nullEscape:"#NULL#");
+
+@speedSummary =
+    SELECT CameraID,
+           MAX(SpeedLimit) AS SpeedLimit,
+           COUNT(*) AS NumberOfObservations,
+           MIN(RecordedSpeed) AS Lowest,
+           MAX(RecordedSpeed) AS Highest,
+           AVG(RecordedSpeed) AS Average
+    FROM @datasource
+    WHERE CameraID ==  @camera
+    GROUP BY CameraID;
+   
+   
+// Save the results
+
+OUTPUT @speedSummary
+TO @out
+USING Outputters.Csv(outputHeader: true, quoting: false);

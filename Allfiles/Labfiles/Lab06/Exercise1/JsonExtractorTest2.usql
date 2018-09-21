@@ -1,0 +1,9 @@
+// Assembly reference for the XML outputter
+
+REFERENCE ASSEMBLY [CustomOutputters];
+
+// Modify the statement that outputs the data to use the XmlOutputter. Save the data as ConvertedSpeedData.xml
+
+OUTPUT @speedData
+TO "/ConvertedSpeedData.xml"
+USING new CustomOutputters.XmlOutputter();

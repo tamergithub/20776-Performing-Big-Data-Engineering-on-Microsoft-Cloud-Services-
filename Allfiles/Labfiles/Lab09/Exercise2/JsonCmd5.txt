@@ -1,0 +1,49 @@
+{
+    "name": "Speed data extract pipeline",
+    "properties": {
+        "description": "Pipeline to extract speed data for a specific CameraID.",
+        "activities": 
+        [
+            {
+                "type": "DataLakeAnalyticsU-SQL",
+                "typeProperties": {
+                    "scriptPath": "scripts\\CameraDataProcessing.txt",
+                    "scriptLinkedService": "AzureStorageLinkedService",
+                    "degreeOfParallelism": 3,
+                    "priority": 100,
+                    "parameters": {
+                        "in": "/CameraTestData/CameraData.csv",
+                        "out": "/CameraTestData/output/SpeedSummary.csv",
+						"camera": "Camera 121"
+                    }
+                },
+                "inputs": [
+                    {
+                        "name": "Input CameraTest DataLakeStore"
+                    }
+                ],
+                "outputs": 
+                [
+                    {
+                        "name": "Output CameraTest DataLakeStore"
+                    }
+                ],
+                "policy": {
+                    "timeout": "06:00:00",
+                    "concurrency": 1,
+                    "executionPriorityOrder": "NewestFirst",
+                    "retry": 1
+                },
+                "scheduler": {
+                    "frequency": "Minute",
+                    "interval": 30
+                },
+                "name": "ASA U-SQL process",
+                "linkedServiceName": "AzureDataLakeAnalyticsLinkedService"
+            }
+        ],
+        "start": "2017-10-28T01:00:00Z",
+        "end": "2017-10-30T01:00:00Z",
+        "isPaused": false
+    }
+}

@@ -1,0 +1,12 @@
+@stolenVehicleAnalysis =
+    SELECT 
+        C.CameraID,
+        COUNT(C.VehicleRegistration) AS NumStolenVehicles
+    FROM 
+        VehicleData.dbo.SpeedCameraData AS C
+    JOIN
+        @stolenVehicles AS V
+    ON 
+        C.VehicleRegistration == V.VehicleRegistration
+    GROUP 
+        BY C.CameraID;

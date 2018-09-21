@@ -1,0 +1,17 @@
+// Assembly references for the JSON extractor and Newtonsoft assembly (required by the extractor) stored in the catalog
+
+REFERENCE ASSEMBLY [Newtonsoft.Json];
+REFERENCE ASSEMBLY [CustomExtractors];
+
+// Use the Json extractor to read the data from the SpeedData.json file. The fields of interest in the file are CameraID string, SpeedLimit int, Speed int, VehicleRegistration string, Date string (there is also the Month field that you can ignore for this lab):
+
+@speedData =
+    EXTRACT CameraID string, SpeedLimit int, Speed int, VehicleRegistration string, Date string
+    FROM "/SpeedData.json"
+    USING new CustomExtractors.JsonExtractor();
+
+// Save the data to a CSV file named ConvertedSpeedData.csv:
+
+OUTPUT @speedData
+TO "/ConvertedSpeedData.csv"
+USING Outputters.Csv(quoting: false, outputHeader: true);

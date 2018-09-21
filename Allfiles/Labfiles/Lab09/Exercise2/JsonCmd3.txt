@@ -1,0 +1,29 @@
+{
+    "name": "Input CameraTest DataLakeStore",
+    "properties": {
+        "type": "AzureDataLakeStore",
+        "linkedServiceName": "AzureDataLakeStoreLinkedService",
+        "typeProperties": {
+            "folderPath": "CameraTestData/",
+            "fileName": "CameraData.csv",
+            "format": {
+                "type": "TextFormat",
+                "rowDelimiter": "\r\n",
+                "columnDelimiter": ",",
+				"firstRowAsHeader": true
+            }
+        },
+		"external": true,	
+        "availability": {
+            "frequency": "Minute",
+            "interval": 30
+		},	
+        "policy": {
+            "externalData": {
+				"retryInterval": "00:01:00",
+                "retryTimeout": "00:10:00",
+                "maximumRetry": 3
+            }
+		}			
+    }
+}

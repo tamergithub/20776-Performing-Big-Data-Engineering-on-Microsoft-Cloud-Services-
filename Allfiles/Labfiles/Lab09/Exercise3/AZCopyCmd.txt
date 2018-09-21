@@ -1,0 +1,1 @@
+azcopy /Source:"E:\Labfiles\Lab09\Exercise3" /Pattern:"LiveSpeedData.csv" /Dest:https://<storage account name>.blob.core.windows.net/capturedspeeds /DestKey:<access key> /S

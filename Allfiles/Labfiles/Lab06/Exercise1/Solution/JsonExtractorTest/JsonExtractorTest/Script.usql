@@ -1,0 +1,17 @@
+﻿// Add the assembly references for the JSON extractor stored in the catalog
+REFERENCE ASSEMBLY [Newtonsoft.Json];
+REFERENCE ASSEMBLY [CustomExtractors];
+
+// Add the assembly references for the XML Outputter
+REFERENCE ASSEMBLY [CustomOutputters];
+
+// Retrieve the speed camera data from the SpeedData.json file in Data Lake Storage
+@speedData =
+    EXTRACT CameraID string, SpeedLimit int, Speed int, VehicleRegistration string, Date string
+    FROM "/SpeedData.json"
+    USING new CustomExtractors.JsonExtractor();
+
+// Save the data to an XML file
+OUTPUT @speedData
+TO "/ConvertedSpeedData.xml"
+USING new CustomOutputters.XmlOutputter();
