@@ -6,11 +6,11 @@
         "typeProperties": {
             "folderPath": "CameraTestData/output/"
         },
-		"external": false,	
+        "external": false,	
         "availability": {
             "frequency": "Minute",
             "interval": 30
         },
-		"policy": {}
+        "policy": {}
     }
 }

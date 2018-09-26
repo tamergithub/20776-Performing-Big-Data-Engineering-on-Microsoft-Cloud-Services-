@@ -14,7 +14,7 @@
                     "parameters": {
                         "in": "/CameraTestData/CameraData.csv",
                         "out": "/CameraTestData/output/SpeedSummary.csv",
-						"camera": "Camera 121"
+                        "camera": "Camera 121"
                     }
                 },
                 "inputs": [
