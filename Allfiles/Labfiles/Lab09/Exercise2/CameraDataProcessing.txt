@@ -2,11 +2,11 @@
 
 @datasource =
 
-    EXTRACT CameraID	        string,
-			SpeedLimit			int,
-			RecordedSpeed		int,
+    EXTRACT CameraID string,
+            SpeedLimit int,
+            RecordedSpeed int,
             VehicleRegistration	string,
-			DetectionDateTime  	DateTime
+            DetectionDateTime DateTime
     FROM @in
     USING Extractors.Csv(skipFirstNRows:1,nullEscape:"#NULL#");
 
