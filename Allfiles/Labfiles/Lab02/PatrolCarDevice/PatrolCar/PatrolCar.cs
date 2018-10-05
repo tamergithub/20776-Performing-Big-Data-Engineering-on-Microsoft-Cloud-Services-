@@ -56,7 +56,7 @@ namespace PatrolCar
             }
             Trace.TraceInformation($"Generated device key: {device.Authentication.SymmetricKey.PrimaryKey} for {carName}"); 
 
-            DeviceClient deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(carName, device.Authentication.SymmetricKey.PrimaryKey), Microsoft.Azure.Devices.Client.TransportType.Amqp);
+            DeviceClient deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(carName, device.Authentication.SymmetricKey.PrimaryKey), Microsoft.Azure.Devices.Client.TransportType.Http1);
             Trace.TraceInformation($"Device client for {carName} created");
 
             return deviceClient;
