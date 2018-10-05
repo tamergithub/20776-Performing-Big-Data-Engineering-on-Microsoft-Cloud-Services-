@@ -36,6 +36,7 @@ namespace PatrolCar
         {
             this.subscriptionClient = SubscriptionClient.CreateFromConnectionString(serviceBusConnectionString, topicName, subscriptionName);
             //this.subscriptionClient.AddRule("PatrolCarIDRule", new SqlFilter($"CarID = {this.carName}")); // ASA Does not yet support message properties, so cannot apply filters to Topics!
+            Microsoft.ServiceBus.ServiceBusEnvironment.SystemConnectivity.Mode = Microsoft.ServiceBus.ConnectivityMode.Http;
             this.subscriptionClient.OnMessage(message => chaseCar(message));
             RegistryManager registryManager = RegistryManager.CreateFromConnectionString(connectionString);
             this.deviceClient = this.GetOrCreateDevice(registryManager, iotHubUri, carName).Result;
@@ -80,7 +81,7 @@ namespace PatrolCar
             }
             Trace.TraceInformation($"Generated device key: {device.Authentication.SymmetricKey.PrimaryKey} for {carName}"); 
 
-            DeviceClient deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(carName, device.Authentication.SymmetricKey.PrimaryKey), Microsoft.Azure.Devices.Client.TransportType.Amqp);
+            DeviceClient deviceClient = DeviceClient.Create(iotHubUri, new DeviceAuthenticationWithRegistrySymmetricKey(carName, device.Authentication.SymmetricKey.PrimaryKey), Microsoft.Azure.Devices.Client.TransportType.Http1);
             Trace.TraceInformation($"Device client for {carName} created");
 
             return deviceClient;
