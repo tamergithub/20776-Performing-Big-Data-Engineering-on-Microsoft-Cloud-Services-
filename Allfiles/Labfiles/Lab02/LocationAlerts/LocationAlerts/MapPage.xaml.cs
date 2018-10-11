@@ -115,7 +115,7 @@ namespace LocationAlerts
                                 Longitude = patrolCarData.LocationLongitude
                             };
 
-                            // If the patrol car already exists then just update its loactopm
+                            // If the patrol car already exists then just update its location
                             MapIcon car = (MapIcon)MapControl.MapElements.FirstOrDefault(m => String.Compare((m as MapIcon).Title, patrolCarData.CarID) == 0);
                             if (car != null)
                             {

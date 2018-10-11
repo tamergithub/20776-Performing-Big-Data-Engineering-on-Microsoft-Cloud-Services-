@@ -33,6 +33,9 @@ namespace PatrolCar
                 return;
             }
 
+            // Change Culture settings to en-US to ensure formatting of CSV data is correct
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("en-US");
+
             var driver = new PatrolCarsDriver(connectionString, iotHubUri, int.Parse(numCars), double.Parse(latNorth), 
                 double.Parse(latSouth), double.Parse(longEast), double.Parse(longWest), 
                 double.Parse(milesPerDegreeLat), double.Parse(milesPerDegreeLong), int.Parse(locationReportingInterval));

@@ -33,6 +33,9 @@ namespace SpeedCameraDriver
                 return;
             }
 
+            // Change Culture settings to en-US to ensure formatting of CSV data is correct
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("en-US");
+
             ServiceBusConnectionStringBuilder builder = new ServiceBusConnectionStringBuilder(connectionString);
             builder.TransportType = TransportType.Amqp;
             var namespaceManager = NamespaceManager.CreateFromConnectionString(builder.ToString());
