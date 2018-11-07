@@ -17,6 +17,10 @@ Since this course was initially released, some of the Visual Studio 2017 tooling
 9. When the **Reboot required** dialog box appears, click **Restart**
 10. Wait for the 20776A-LON-DEV virtual machine to restart, and then log on as **ADATUM\\AdatumAdmin** with the password **Pa55w.rd**.
 
+## Updates to labs and demo files
+
+The labs and demo files available on the E: drive on the lab VM are outdated. You should download the latest version of these files from the Allfiles folder in this repository
+
 ---
 
 ©2018 Microsoft Corporation. All rights reserved.
